@@ -10,7 +10,7 @@ namespace CB.Api {
         public static void Main(string[] args) {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDoranContext(builder.Configuration);
+            builder.Services.AddCBContext(builder.Configuration);
             builder.Services.AddControllers().AddNewtonsoftJson();
             builder.Services.AddEndpointsApiExplorer();
 
