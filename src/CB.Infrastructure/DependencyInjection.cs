@@ -7,7 +7,7 @@ namespace CB.Infrastructure {
 
     public static class DependencyInjection {
 
-        public static IServiceCollection AddDoranContext(this IServiceCollection services, IConfiguration configuration) {
+        public static IServiceCollection AddCBContext(this IServiceCollection services, IConfiguration configuration) {
             services.AddDbContext<CBContext>(options => {
                 options.UseNpgsql(configuration.GetConnectionString(nameof(CBContext)));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);

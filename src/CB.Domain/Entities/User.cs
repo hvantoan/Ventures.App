@@ -29,6 +29,5 @@ public class User : IEntity {
     public bool IsAdmin { get; set; }
     public bool IsSystem { get; set; }
     public bool IsDeleted { get; set; }
-
     public virtual Role? Role { get; set; }
 }

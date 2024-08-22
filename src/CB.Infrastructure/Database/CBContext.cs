@@ -24,12 +24,12 @@ namespace CB.Infrastructure.Database {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Server=database.hvantoan.io.vn;Port=5432;Database=postgres;Integrated Security=false;Pooling=true;");
+                optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Server=database.hvantoan.io.vn;Port=5432;Database=postgres;Pooling=true;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.HasDefaultSchema(DrSchema.Default);
+            modelBuilder.HasDefaultSchema(CBchema.Default);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
