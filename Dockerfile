@@ -1,10 +1,7 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0.6-bookworm-slim AS base
 WORKDIR /app
 EXPOSE 8000
-RUN echo "deb http://deb.debian.org/debian bookworm contrib non-free" > /etc/apt/sources.list.d/contrib.list \
-    && apt-get update; apt-get install -y ttf-mscorefonts-installer fontconfig fonts-roboto
-
-ENV ASPNETCORE_URLS=http://+:8000
+ENV ASPNETCORE_URLS=https://+:8000
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
