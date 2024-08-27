@@ -13,4 +13,10 @@ public class AuthController(IServiceProvider serviceProvider) : BaseController(s
         var res = await mediator.Send(req);
         return Result<LoginResult>.Ok(res);
     }
+
+    [HttpPost, Route("google")]
+    public async Task<Result> Google(RegisterGoogleCommand req) {
+        var res = await mediator.Send(req);
+        return Result<LoginResult>.Ok(res);
+    }
 }

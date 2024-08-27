@@ -9,10 +9,11 @@ public class UserDto {
     public string Name { get; set; } = string.Empty;
     public string? Phone { get; set; }
     public string? Address { get; set; }
-
     public bool IsActive { get; set; }
     public bool IsAdmin { get; set; }
     public bool IsDeleted { get; set; }
+
+
 
     public RoleDto? Role { get; set; }
 

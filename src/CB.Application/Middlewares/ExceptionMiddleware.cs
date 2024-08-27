@@ -10,7 +10,7 @@ public class ExceptionMiddleware : IMiddleware {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
         try {
             await next(context);
-        } catch (DrException ex) {
+        } catch (CbException ex) {
             await HandleException(context, (int)HttpStatusCode.OK, ex);
         } catch (Exception ex) {
             await HandleException(context, (int)HttpStatusCode.BadRequest, ex);

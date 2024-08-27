@@ -7,7 +7,7 @@ public static class SwaggerExtention {
 
     public static IServiceCollection AddSwag(this IServiceCollection services) {
         services.AddSwaggerGen(c => {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Doran API v1", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ventures API v1", Version = "v1" });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
                 Description = @"API KEY",
                 Name = "Authorization",
@@ -35,7 +35,7 @@ public static class SwaggerExtention {
 
     public static IApplicationBuilder UseSwag(this IApplicationBuilder app) {
         app.UseSwagger().UseSwaggerUI(options => {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Doran API v1");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ventures API v1");
             options.DocExpansion(DocExpansion.None);
         });
         return app;

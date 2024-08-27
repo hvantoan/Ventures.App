@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using CB.Domain.Common.Interfaces;
+using CB.Domain.Enums;
 
 namespace CB.Domain.Entities;
 
@@ -26,6 +27,7 @@ public class User : IEntity {
     [Description("Trạng thái")]
     public bool IsActive { get; set; }
 
+    public EProvider Provider { get; set; }
     public bool IsAdmin { get; set; }
     public bool IsSystem { get; set; }
     public bool IsDeleted { get; set; }

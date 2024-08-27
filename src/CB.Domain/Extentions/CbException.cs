@@ -2,7 +2,7 @@
 
 namespace CB.Domain.Extentions {
 
-    public sealed class DrException(string message) : Exception(message) {
+    public sealed class CbException(string message) : Exception(message) {
 
         public static void ThrowIf([DoesNotReturnIf(true)] bool when, string message) {
             if (when) Throw(message);
@@ -31,7 +31,7 @@ namespace CB.Domain.Extentions {
 
         [DoesNotReturn]
         public static void Throw(string message) {
-            throw new DrException(message);
+            throw new CbException(message);
         }
     }
 }
