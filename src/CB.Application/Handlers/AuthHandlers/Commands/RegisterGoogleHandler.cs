@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using CB.Domain.Common.Hashers;
 using CB.Domain.Constants;
+using CB.Domain.Enums;
 using CB.Domain.Extentions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,33 +12,29 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CB.Application.Handlers.AuthHandlers.Commands;
 
-public class LoginCommand : IRequest<LoginResult> {
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-}
-
-public class LoginResult {
-    public string RefreshToken { get; set; } = string.Empty;
-    public string Token { get; set; } = string.Empty;
-    public string Username { get; set; } = string.Empty;
+public class RegisterGoogleCommand : IRequest<LoginResult> {
+    public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
-    public long ExpiredTime { get; set; }
-    public long Session { get; set; }
+    public string Email { get; set; } = string.Empty;
+    public string Image { get; set; } = string.Empty;
 }
 
-public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginCommand, LoginResult>(serviceProvider) {
-    //private readonly IRedisService redisCacheService = serviceProvider.GetRequiredService<IRedisService>();
+public class RegisterGoogleHandler(IServiceProvider serviceProvider) : BaseHandler<RegisterGoogleCommand, LoginResult>(serviceProvider) {
 
-    public override async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken) {
-        request.Username = request.Username.ToLower().Trim();
-        return await Login(request, cancellationToken);
-    }
-
-    public async Task<LoginResult> Login(LoginCommand request, CancellationToken cancellationToken) {
-        var user = await db.Users.FirstOrDefaultAsync(o => o.Username == request.Username, cancellationToken);
-        CbException.ThrowIfNull(user, Messages.User_NotFound);
-        CbException.ThrowIf(!user.IsAdmin && !user.IsActive, Messages.User_Inactive);
-        CbException.ThrowIf(!PasswordHasher.Verify(request.Password, user.Password) && user.Provider == Domain.Enums.EProvider.Nomal, Messages.User_IncorrectPassword);
+    public override async Task<LoginResult> Handle(RegisterGoogleCommand request, CancellationToken cancellationToken) {
+        var user = await db.Users.FirstOrDefaultAsync(o => o.Username == request.Email, cancellationToken);
+        if (user == null) {
+            user ??= new User {
+                Id = Guid.NewGuid(),
+                Username = request.Email,
+                Password = PasswordHasher.Hash(""),
+                Name = request.Name,
+                IsActive = true,
+                Provider = EProvider.Google,
+            };
+            this.db.Users.Add(user);
+            await this.db.SaveChangesAsync(cancellationToken);
+        }
 
         var permissions = await db.GetPermissions(cancellationToken: cancellationToken);
         Role? role = null;

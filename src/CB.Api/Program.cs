@@ -1,7 +1,10 @@
+using System.Text;
 using CB.Api.Extentions;
 using CB.Application;
 using CB.Domain;
 using CB.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CB.Api {
 
@@ -11,6 +14,18 @@ namespace CB.Api {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddCBContext(builder.Configuration);
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    RequireExpirationTime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSecret"]!))
+                });
+
+            //builder.Services.AddAuthorizationBuilder().SetDefaultPolicy(new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build());
+
             builder.Services.AddControllers().AddNewtonsoftJson();
             builder.Services.AddEndpointsApiExplorer();
 
@@ -28,7 +43,7 @@ namespace CB.Api {
 
             app.UseSwag();
             app.UseHttpsRedirection();
-            app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders("*"));
+            app.UseCors();
             app.UseRouting();
 
             app.UseAuthorization();
