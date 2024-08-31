@@ -29,6 +29,7 @@ public abstract class BasePaginatedRequest : BaseRequest {
     public bool IsCount { get; set; }
     public string? SearchText { get; set; }
     public string? FirstItemId { get; set; }
+    public bool ShowAll { get; set; }
 
     public int Skip => PageIndex * PageSize;
     public int Take => PageSize;

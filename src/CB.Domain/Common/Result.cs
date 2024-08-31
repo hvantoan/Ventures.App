@@ -10,8 +10,11 @@ public class Result {
     [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
     public string? Message { get; set; }
 
-    public static Result Ok() {
-        return new() { Success = true };
+    [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
+    public object? Data { get; set; }
+
+    public static Result Ok(object? data) {
+        return new() { Success = true, Data = data };
     }
 
     public static Result Fail(string? message = null) {
@@ -23,15 +26,7 @@ public class Result {
     }
 }
 
-public class Result<T> : Result {
 
-    [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
-    public T? Data { get; set; }
-
-    public static Result<T> Ok(T? data) {
-        return new() { Success = true, Data = data };
-    }
-}
 
 public class FileResult {
     public string FileName { get; set; } = string.Empty;
