@@ -13,6 +13,10 @@ namespace CB.Infrastructure.Database {
 
         public DbSet<User> Users => Set<User>();
 
+        public DbSet<Pricing> Pricings => Set<Pricing>();
+        public DbSet<Feature> Features => Set<Feature>();
+
+
         public CBContext() {
         }
 

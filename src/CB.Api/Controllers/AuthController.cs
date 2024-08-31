@@ -11,12 +11,12 @@ public class AuthController(IServiceProvider serviceProvider) : BaseController(s
     [HttpPost, AllowAnonymous, Route("login")]
     public async Task<Result> Login(LoginCommand req) {
         var res = await mediator.Send(req);
-        return Result<LoginResult>.Ok(res);
+        return Result.Ok(res);
     }
 
     [HttpPost, Authorize, Route("google")]
     public async Task<Result> Google(RegisterGoogleCommand req) {
         var res = await mediator.Send(req);
-        return Result<LoginResult>.Ok(res);
+        return Result.Ok(res);
     }
 }
