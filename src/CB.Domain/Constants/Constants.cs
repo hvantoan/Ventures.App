@@ -1,10 +1,12 @@
 ﻿namespace CB.Domain.Constants;
 
 public class Constants {
+    public const string TokenMerchantId = "MerchantId";
     public const string TokenUserId = "UserId";
     public const string TokenRefreshToken = "RefreshToken";
     public const string TokenSource = "Source";
     public const string TokenSession = "Session";
+    public const string HeaderTimezone = "X-Ventures-Tz";
 }
 
 public static class RedisKey {

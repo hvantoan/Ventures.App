@@ -4,7 +4,8 @@ using CB.Domain.Common.Interfaces;
 namespace CB.Domain.Entities;
 
 public class Role : IEntity {
-    public Guid Id { get; set; }
+    public string Id { get; set; } = null!;
+    public string MerchantId { get; set; } = null!;
 
     [Description("Mã phân quyền")]
     public string Code { get; set; } = null!;
@@ -13,8 +14,9 @@ public class Role : IEntity {
     public string Name { get; set; } = null!;
 
     public string SearchName { get; set; } = null!;
-    public bool IsDeleted { get; set; }
-    public DateTimeOffset CreatedDate { get; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
+
+    public bool IsDelete { get; set; }
 
     public virtual ICollection<User>? Users { get; set; }
     public virtual ICollection<RolePermission>? RolePermissions { get; set; }

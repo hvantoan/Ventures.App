@@ -11,6 +11,7 @@
     <PackageVersion Include="MediatR" Version="12.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authorization" Version="8.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="8.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.2.2" />

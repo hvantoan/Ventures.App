@@ -13,7 +13,7 @@ public class Result {
     [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
     public object? Data { get; set; }
 
-    public static Result Ok(object? data) {
+    public static Result Ok(object? data = null) {
         return new() { Success = true, Data = data };
     }
 

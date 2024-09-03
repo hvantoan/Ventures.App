@@ -1,6 +1,5 @@
 ﻿using CB.Domain.Constants;
 using CB.Domain.Extentions;
-using Microsoft.EntityFrameworkCore;
 
 namespace CB.Application.Handlers.UserHandlers.Commands;
 
@@ -11,7 +10,7 @@ internal class UpdateProfileHandler(IServiceProvider serviceProvider) : BaseHand
 
     public override async Task Handle(UpdateProfileCommand request, CancellationToken cancellationToken) {
         var model = request.Model;
-        var user = await db.Users.FirstOrDefaultAsync(o => o.Id == model.Id && o.Username == model.Username && !o.IsDeleted && !o.IsSystem, cancellationToken);
+        var user = await db.Users.FirstOrDefaultAsync(o => o.Id == model.Id && o.Username == model.Username && !o.IsDelete && !o.IsSystem, cancellationToken);
         CbException.ThrowIfNull(user, Messages.User_NotFound);
 
         CbException.ThrowIf(user.IsAdmin && !model.IsActive, Messages.User_Inactive);

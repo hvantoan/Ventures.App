@@ -23,58 +23,6 @@ namespace CB.Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CB.Domain.Entities.Attachment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<long>("CreateAt")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<long?>("DeleteAt")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid?>("DeleteBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<Guid>("ParentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("UpdateAt")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid?>("UpdateBy")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Type", "ParentId");
-
-                    b.ToTable("Attachment", "public");
-                });
-
             modelBuilder.Entity("CB.Domain.Entities.Feature", b =>
                 {
                     b.Property<Guid>("Id")
@@ -95,12 +43,115 @@ namespace CB.Infrastructure.Database.Migrations
                     b.ToTable("Feature", "public");
                 });
 
+            modelBuilder.Entity("CB.Domain.Entities.ItemImage", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasMaxLength(8000)
+                        .HasColumnType("character varying(8000)");
+
+                    b.Property<string>("ItemId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<int>("ItemType")
+                        .HasMaxLength(20)
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MerchantId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MerchantId", "ItemType");
+
+                    b.ToTable("ItemImage", "public");
+                });
+
+            modelBuilder.Entity("CB.Domain.Entities.Merchant", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("ApiSecret")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<long?>("At")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Commune")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<long>("CreatedDate")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("District")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<long>("ExpiredDate")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Province")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("SearchName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Merchant", "public");
+                });
+
             modelBuilder.Entity("CB.Domain.Entities.Permission", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasMaxLength(32)
-                        .HasColumnType("uuid");
+                        .HasColumnType("character varying(32)");
 
                     b.Property<string>("ClaimName")
                         .IsRequired()
@@ -124,9 +175,13 @@ namespace CB.Infrastructure.Database.Migrations
                     b.Property<int>("OrderIndex")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("ParentId")
+                    b.Property<string>("ParentId")
                         .HasMaxLength(32)
-                        .HasColumnType("uuid");
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<int>("Type")
+                        .HasMaxLength(20)
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -135,55 +190,98 @@ namespace CB.Infrastructure.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("01f543fd-521f-41c7-83b3-00253996dd69"),
-                            ClaimName = "CB.Kaban",
-                            DisplayName = "Quản lý dự án",
+                            Id = "ec0f270b424249438540a16e9157c0c8",
+                            ClaimName = "BO",
+                            DisplayName = "Trang quản lý",
                             IsActive = true,
-                            IsClaim = true,
+                            IsClaim = false,
                             IsDefault = true,
-                            OrderIndex = 0
+                            OrderIndex = 0,
+                            Type = 1
                         },
                         new
                         {
-                            Id = new Guid("4ff1aa66-fc29-4e06-becb-6e307e6aa09a"),
-                            ClaimName = "CB.DevTools",
-                            DisplayName = "Công cụ",
+                            Id = "b47bbb68c29e4880bb3a230620ce4e6e",
+                            ClaimName = "BO.Dashboard",
+                            DisplayName = "Tổng quan",
                             IsActive = true,
                             IsClaim = true,
                             IsDefault = true,
-                            OrderIndex = 1
+                            OrderIndex = 1,
+                            ParentId = "ec0f270b424249438540a16e9157c0c8",
+                            Type = 1
                         },
                         new
                         {
-                            Id = new Guid("cc91c9c4-5845-407d-867b-0c1453f2b852"),
-                            ClaimName = "CB.User",
-                            DisplayName = "Quản lý người dùng",
+                            Id = "dc1c2ce584d74428b4e5241a5502787d",
+                            ClaimName = "BO.Setting",
+                            DisplayName = "Cài đặt",
                             IsActive = true,
-                            IsClaim = true,
+                            IsClaim = false,
                             IsDefault = false,
-                            OrderIndex = 2
+                            OrderIndex = 2,
+                            ParentId = "ec0f270b424249438540a16e9157c0c8",
+                            Type = 1
                         },
                         new
                         {
-                            Id = new Guid("31f07c51-7067-4e96-9f44-de6a02818513"),
-                            ClaimName = "CB.User.Password",
-                            DisplayName = "Quản lý mật khẩu",
+                            Id = "b35cc06a567e420f8d0bda3426091048",
+                            ClaimName = "BO.General",
+                            DisplayName = "Cài đặt chung",
                             IsActive = true,
-                            IsClaim = true,
+                            IsClaim = false,
                             IsDefault = false,
                             OrderIndex = 3,
-                            ParentId = new Guid("de5ffa57-021d-4768-b361-894828259350")
+                            ParentId = "dc1c2ce584d74428b4e5241a5502787d",
+                            Type = 1
                         },
                         new
                         {
-                            Id = new Guid("8ad5baf8-b7f6-433c-94e7-87ca45728945"),
-                            ClaimName = "CB.User.Edit",
-                            DisplayName = "Cập nhật người dùng",
+                            Id = "721bb6697d4c4579abc649ed838443cd",
+                            ClaimName = "BO.General.Advanced",
+                            DisplayName = "Cài đặt nâng cao",
                             IsActive = true,
                             IsClaim = true,
                             IsDefault = false,
                             OrderIndex = 4,
-                            ParentId = new Guid("cc91c9c4-5845-407d-867b-0c1453f2b852")
+                            ParentId = "b35cc06a567e420f8d0bda3426091048",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = "296285809bac481890a454ea8aed6af4",
+                            ClaimName = "BO.User",
+                            DisplayName = "Người dùng",
+                            IsActive = true,
+                            IsClaim = true,
+                            IsDefault = false,
+                            OrderIndex = 5,
+                            ParentId = "dc1c2ce584d74428b4e5241a5502787d",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = "98873832ebcb4d9fb12e9b21a187f12c",
+                            ClaimName = "BO.User.Reset",
+                            DisplayName = "Đặt lại mật khẩu",
+                            IsActive = true,
+                            IsClaim = true,
+                            IsDefault = false,
+                            OrderIndex = 6,
+                            ParentId = "296285809bac481890a454ea8aed6af4",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = "cb26c94262ab4863baa6c516edfde134",
+                            ClaimName = "BO.Role",
+                            DisplayName = "Phân quyền",
+                            IsActive = true,
+                            IsClaim = true,
+                            IsDefault = false,
+                            OrderIndex = 7,
+                            ParentId = "dc1c2ce584d74428b4e5241a5502787d",
+                            Type = 1
                         });
                 });
 
@@ -210,10 +308,9 @@ namespace CB.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("CB.Domain.Entities.Role", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasMaxLength(32)
-                        .HasColumnType("uuid");
+                        .HasColumnType("character varying(32)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -223,8 +320,12 @@ namespace CB.Infrastructure.Database.Migrations
                     b.Property<long>("CreatedDate")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsDelete")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("MerchantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -243,13 +344,13 @@ namespace CB.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("CB.Domain.Entities.RolePermission", b =>
                 {
-                    b.Property<Guid>("RoleId")
+                    b.Property<string>("RoleId")
                         .HasMaxLength(32)
-                        .HasColumnType("uuid");
+                        .HasColumnType("character varying(32)");
 
-                    b.Property<Guid>("PermissionId")
+                    b.Property<string>("PermissionId")
                         .HasMaxLength(32)
-                        .HasColumnType("uuid");
+                        .HasColumnType("character varying(32)");
 
                     b.Property<bool>("IsEnable")
                         .HasColumnType("boolean");
@@ -263,13 +364,21 @@ namespace CB.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("CB.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("Id")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
 
                     b.Property<string>("Address")
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Commune")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("District")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -277,11 +386,19 @@ namespace CB.Infrastructure.Database.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsDelete")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsSystem")
                         .HasColumnType("boolean");
+
+                    b.Property<long>("LastSession")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("MerchantId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -298,8 +415,18 @@ namespace CB.Infrastructure.Database.Migrations
                     b.Property<int>("Provider")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("RoleId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Province")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("RoleId")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("SearchName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -307,25 +434,14 @@ namespace CB.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MerchantId");
+
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User", "public");
+                    b.HasIndex("MerchantId", "Username")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("dec5aee5-12e1-4b61-8d3f-ad5d5235e6cd"),
-                            Address = "Thanh An, Hớn Quản, Bình Phước",
-                            IsActive = true,
-                            IsAdmin = true,
-                            IsDeleted = false,
-                            IsSystem = true,
-                            Name = "Admin",
-                            Password = "Wgkm5WCLFQbdzCjqx8AC3oZ0YU+hQET+Lpm+MfDusm2mCP9SlsPtzsSr9ohzF6XFMa1IaJacF7LHNh0/G68Uqg==",
-                            Phone = "",
-                            Provider = 0,
-                            Username = "admin"
-                        });
+                    b.ToTable("User", "public");
                 });
 
             modelBuilder.Entity("CB.Domain.Entities.Feature", b =>

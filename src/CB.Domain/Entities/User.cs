@@ -4,22 +4,35 @@ using CB.Domain.Enums;
 
 namespace CB.Domain.Entities;
 
-public class User : IEntity {
-    public Guid Id { get; set; }
+public partial class User : IEntity {
+    public string Id { get; set; } = null!;
+    public string MerchantId { get; set; } = null!;
 
     [Description("Phân quyền")]
-    public Guid? RoleId { get; set; }
+    public string? RoleId { get; set; }
 
     [Description("Tên đăng nhập")]
     public string Username { get; set; } = null!;
 
     public string Password { get; set; } = null!;
+    public EProvider Provider { get; set; }
 
     [Description("Tên người dùng")]
     public string Name { get; set; } = null!;
 
+    public string SearchName { get; set; } = null!;
+
     [Description("Số điện thoại")]
     public string? Phone { get; set; }
+
+    [Description("Tỉnh/Thành phố")]
+    public string? Province { get; set; }
+
+    [Description("Quận/Huyện")]
+    public string? District { get; set; }
+
+    [Description("Phường/Xã")]
+    public string? Commune { get; set; }
 
     [Description("Địa chỉ")]
     public string? Address { get; set; }
@@ -27,9 +40,21 @@ public class User : IEntity {
     [Description("Trạng thái")]
     public bool IsActive { get; set; }
 
-    public EProvider Provider { get; set; }
     public bool IsAdmin { get; set; }
     public bool IsSystem { get; set; }
-    public bool IsDeleted { get; set; }
+    public bool IsDelete { get; set; }
+
+    public long LastSession { get; set; }
+
     public virtual Role? Role { get; set; }
+}
+
+public partial class User {
+
+    public string GetName() {
+        var name = this.Name ?? "";
+        if (string.IsNullOrWhiteSpace(name))
+            name = this.Username ?? "";
+        return name;
+    }
 }

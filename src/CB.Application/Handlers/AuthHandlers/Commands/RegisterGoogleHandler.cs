@@ -5,8 +5,6 @@ using CB.Domain.Common.Hashers;
 using CB.Domain.Constants;
 using CB.Domain.Enums;
 using CB.Domain.Extentions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,7 +23,7 @@ public class RegisterGoogleHandler(IServiceProvider serviceProvider) : BaseHandl
         var user = await db.Users.FirstOrDefaultAsync(o => o.Username == request.Email, cancellationToken);
         if (user == null) {
             user ??= new User {
-                Id = Guid.NewGuid(),
+                Id = NGuidHelper.New(),
                 Username = request.Email,
                 Password = PasswordHasher.Hash(""),
                 Name = request.Name,

@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Entities;
+using CB.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,68 +16,106 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
 
         builder.Property(o => o.ClaimName).HasMaxLength(50).IsRequired();
         builder.Property(o => o.DisplayName).HasMaxLength(50).IsRequired();
+        builder.Property(o => o.Type).HasMaxLength(20).IsRequired();
 
         // fk
         builder.HasMany(o => o.RolePermissions).WithOne(o => o.Permission).HasForeignKey(o => o.PermissionId);
+
+
+        // seed data
         var index = 0;
 
-        // Quản lý dự án
         builder.HasData(new Permission {
-            Id = Guid.Parse("01f543fd-521f-41c7-83b3-00253996dd69"),
-            ParentId = null,
-            ClaimName = "CB.Kaban",
-            DisplayName = "Quản lý dự án",
+            Id = "ec0f270b424249438540a16e9157c0c8",
+            ClaimName = "BO",
+            DisplayName = "Trang quản lý",
+            IsDefault = true,
+            IsActive = true,
+            IsClaim = false,
+            OrderIndex = index++,
+            Type = EPermission.Web,
+        });
+
+        builder.HasData(new Permission {
+            Id = "b47bbb68c29e4880bb3a230620ce4e6e",
+            ParentId = "ec0f270b424249438540a16e9157c0c8",
+            ClaimName = "BO.Dashboard",
+            DisplayName = "Tổng quan",
             IsDefault = true,
             IsActive = true,
             IsClaim = true,
             OrderIndex = index++,
+            Type = EPermission.Web,
         });
 
-        // Quản lý công cụ
         builder.HasData(new Permission {
-            Id = Guid.Parse("4ff1aa66-fc29-4e06-becb-6e307e6aa09a"),
-            ParentId = null,
-            ClaimName = "CB.DevTools",
-            DisplayName = "Công cụ",
-            IsDefault = true,
+            Id = "dc1c2ce584d74428b4e5241a5502787d",
+            ParentId = "ec0f270b424249438540a16e9157c0c8",
+            ClaimName = "BO.Setting",
+            DisplayName = "Cài đặt",
+            IsDefault = false,
             IsActive = true,
-            IsClaim = true,
+            IsClaim = false,
             OrderIndex = index++,
+            Type = EPermission.Web,
         });
 
-        // Quản lý người dùng
+        builder.HasData(new Permission {
+            Id = "b35cc06a567e420f8d0bda3426091048",
+            ParentId = "dc1c2ce584d74428b4e5241a5502787d",
+            ClaimName = "BO.General",
+            DisplayName = "Cài đặt chung",
+            IsDefault = false,
+            IsActive = true,
+            IsClaim = false,
+            OrderIndex = index++,
+            Type = EPermission.Web,
+        });
 
         builder.HasData(new Permission {
-            Id = Guid.Parse("cc91c9c4-5845-407d-867b-0c1453f2b852"),
-            ParentId = null,
-            ClaimName = "CB.User",
-            DisplayName = "Quản lý người dùng",
+            Id = "721bb6697d4c4579abc649ed838443cd",
+            ParentId = "b35cc06a567e420f8d0bda3426091048",
+            ClaimName = "BO.General.Advanced",
+            DisplayName = "Cài đặt nâng cao",
             IsDefault = false,
             IsActive = true,
             IsClaim = true,
             OrderIndex = index++,
+            Type = EPermission.Web,
         });
 
         builder.HasData(new Permission {
-            Id = Guid.Parse("31f07c51-7067-4e96-9f44-de6a02818513"),
-            ParentId = Guid.Parse("de5ffa57-021d-4768-b361-894828259350"),
-            ClaimName = "CB.User.Password",
-            DisplayName = "Quản lý mật khẩu",
+            Id = "296285809bac481890a454ea8aed6af4",
+            ParentId = "dc1c2ce584d74428b4e5241a5502787d",
+            ClaimName = "BO.User",
+            DisplayName = "Người dùng",
             IsDefault = false,
             IsActive = true,
             IsClaim = true,
             OrderIndex = index++,
-        });
-
-        builder.HasData(new Permission {
-            Id = Guid.Parse("8ad5baf8-b7f6-433c-94e7-87ca45728945"),
-            ParentId = Guid.Parse("cc91c9c4-5845-407d-867b-0c1453f2b852"),
-            ClaimName = "CB.User.Edit",
-            DisplayName = "Cập nhật người dùng",
+            Type = EPermission.Web,
+        }, new Permission {
+            Id = "98873832ebcb4d9fb12e9b21a187f12c",
+            ParentId = "296285809bac481890a454ea8aed6af4",
+            ClaimName = "BO.User.Reset",
+            DisplayName = "Đặt lại mật khẩu",
             IsDefault = false,
             IsActive = true,
             IsClaim = true,
             OrderIndex = index++,
+            Type = EPermission.Web,
+        });
+
+        builder.HasData(new Permission {
+            Id = "cb26c94262ab4863baa6c516edfde134",
+            ParentId = "dc1c2ce584d74428b4e5241a5502787d",
+            ClaimName = "BO.Role",
+            DisplayName = "Phân quyền",
+            IsDefault = false,
+            IsActive = true,
+            IsClaim = true,
+            OrderIndex = index++,
+            Type = EPermission.Web,
         });
     }
 }
