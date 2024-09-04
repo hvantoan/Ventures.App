@@ -11,7 +11,7 @@ public class SaveMerchantHandler(IServiceProvider serviceProvider) : BaseHandler
         var model = request.Model;
         var merchantId = request.MerchantId;
         model.Name = model.Name.Trim();
-        var entity = await db.Merchants.FirstOrDefaultAsync(o => o.Id == model.Id, cancellationToken);
+        var entity = await db.Merchants.AsTracking().FirstOrDefaultAsync(o => o.Id == model.Id, cancellationToken);
         CbException.ThrowIfNull(entity, Messages.Merchant_NotFound);
 
         entity.Name = model.Name;
