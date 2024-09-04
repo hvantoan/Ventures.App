@@ -12,6 +12,7 @@ namespace CB.Infrastructure.Database {
 
         public DbSet<User> Users => Set<User>();
         public DbSet<Merchant> Merchants => Set<Merchant>();
+        public DbSet<ItemImage> ItemImages => Set<ItemImage>();
 
         public DbSet<Pricing> Pricings => Set<Pricing>();
         public DbSet<Feature> Features => Set<Feature>();

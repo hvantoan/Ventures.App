@@ -1,37 +1,37 @@
 ﻿using CB.Domain.ExternalServices.Interfaces;
+using CB.Domain.ExternalServices.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace CB.Domain.ExternalServices.Implements {
+namespace CB.Domain.ExternalServices.Implements;
 
-    public class RedisService(IServiceProvider serviceProvider) : IRedisService {
-        private readonly IDatabase redisCache = serviceProvider.GetRequiredService<IConnectionMultiplexer>().GetDatabase();
+public class RedisService(IServiceProvider serviceProvider) : IRedisService {
+    private readonly IConnectionMultiplexer connection = serviceProvider.GetRequiredService<IConnectionMultiplexer>();
 
-        public async Task<T?> GetAsync<T>(string key) {
-            var json = await redisCache.StringGetAsync(key);
-            return json.HasValue ? JsonConvert.DeserializeObject<T>(json.ToString()) : default;
-        }
+    public async Task<RedisValue<T>> GetAsync<T>(string key) {
+        var redisCache = this.connection.GetDatabase();
 
-        public async Task RemoveAsync(string key) {
-            await redisCache.KeyDeleteAsync(key);
-        }
+        var existed = await redisCache.KeyExistsAsync(key);
+        if (!existed) return new RedisValue<T>();
 
-        public async Task SetAsync(string key, object? data, TimeSpan? ttl = null) {
-            var json = JsonConvert.SerializeObject(data);
-            await redisCache.StringSetAsync(key, json);
-            if (ttl.HasValue && ttl.Value > TimeSpan.Zero)
-                await redisCache.KeyExpireAsync(key, ttl);
-        }
+        var result = await redisCache.StringGetWithExpiryAsync(key);
+        return new RedisValue<T> {
+            Value = result.Value.HasValue ? JsonConvert.DeserializeObject<T>(result.Value.ToString()) : default,
+            Expiry = result.Expiry,
+        };
+    }
 
-        public bool TryGetValue<T>(string key, out T? result) {
-            var existed = redisCache.KeyExistsAsync(key).Result;
-            if (existed) {
-                result = GetAsync<T>(key).Result;
-                return true;
-            }
-            result = default;
-            return false;
-        }
+    public async Task RemoveAsync(string key) {
+        var redisCache = this.connection.GetDatabase();
+        await redisCache.KeyDeleteAsync(key);
+    }
+
+    public async Task SetAsync(string key, object? data, TimeSpan? ttl = null) {
+        var redisCache = this.connection.GetDatabase();
+        var json = JsonConvert.SerializeObject(data);
+        await redisCache.StringSetAsync(key, json);
+        if (ttl.HasValue && ttl.Value > TimeSpan.Zero)
+            await redisCache.KeyExpireAsync(key, ttl);
     }
 }

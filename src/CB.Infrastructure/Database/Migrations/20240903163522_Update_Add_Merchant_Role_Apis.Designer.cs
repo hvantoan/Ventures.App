@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CB.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(CBContext))]
-    [Migration("20240903150355_Update_Add_Merchant_Role_Apis")]
+    [Migration("20240903163522_Update_Add_Merchant_Role_Apis")]
     partial class Update_Add_Merchant_Role_Apis
     {
         /// <inheritdoc />
