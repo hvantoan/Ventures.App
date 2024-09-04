@@ -1,8 +1,4 @@
 ﻿using System.Reflection;
-using CB.Domain.Common.Interfaces;
-using CB.Domain.Common.Models;
-using CB.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
@@ -54,95 +50,95 @@ namespace CB.Application.Common.Extentions {
 
     public static class AttachmentExtention {
 
-        public static async Task<T> FileAsync<T>(this T model, CBContext db, CancellationToken token) where T : class {
-            var files = (await model.GetAttachmentFiles(db, token)).GroupBy(o => o.ParentId.ToString()).ToDictionary(k => k.Key, v => v.ToList());
-            var json = model.ToJson();
+        //public static async Task<T> FileAsync<T>(this T model, CBContext db, CancellationToken token) where T : class {
+        //    var files = (await model.GetAttachmentFiles(db, token)).GroupBy(o => o.ParentId.ToString()).ToDictionary(k => k.Key, v => v.ToList());
+        //    var json = model.ToJson();
 
-            if (typeof(T).IsClass && typeof(IAttachment).IsAssignableFrom(typeof(T))) {
-                var id = json.GetValue(nameof(IAttachment.Id))?.ToString();
-                if (!string.IsNullOrEmpty(id)) {
-                    json.UpdateProperty(nameof(IAttachment.Attachments), files.GetValueOrDefault(id, []));
-                }
-            }
+        //    if (typeof(T).IsClass && typeof(IAttachment).IsAssignableFrom(typeof(T))) {
+        //        var id = json.GetValue(nameof(IAttachment.Id))?.ToString();
+        //        if (!string.IsNullOrEmpty(id)) {
+        //            json.UpdateProperty(nameof(IAttachment.Attachments), files.GetValueOrDefault(id, []));
+        //        }
+        //    }
 
-            foreach (var prop in typeof(T).GetProperties()) {
-                if (typeof(IAttachment).IsAssignableFrom(prop.PropertyType)) {
-                    var data = (JObject?)json.GetValue(nameof(IAttachment.Id));
-                    if (data != null) {
-                        var id = data.GetValue(nameof(IAttachment.Id))?.ToString();
-                        if (!string.IsNullOrEmpty(id)) {
-                            data.UpdateProperty(nameof(IAttachment.Attachments), files.GetValueOrDefault(id, []));
-                        }
-                    }
-                    json.UpdateProperty(prop.Name, data ?? []);
-                } else if (IsListOfIMapAttachment(prop.PropertyType)) {
-                    var data = json.GetValue(prop.Name) as JArray;
-                    foreach (JObject item in (data ?? []).Cast<JObject>()) {
-                        var id = item.GetValue(nameof(IAttachment.Id))?.ToString();
-                        if (!string.IsNullOrEmpty(id)) {
-                            item.UpdateProperty(nameof(IAttachment.Attachments), files.GetValueOrDefault(id, []));
-                        }
-                    }
-                    json.UpdateProperty(prop.Name, data ?? []);
-                }
-            }
+        //    foreach (var prop in typeof(T).GetProperties()) {
+        //        if (typeof(IAttachment).IsAssignableFrom(prop.PropertyType)) {
+        //            var data = (JObject?)json.GetValue(nameof(IAttachment.Id));
+        //            if (data != null) {
+        //                var id = data.GetValue(nameof(IAttachment.Id))?.ToString();
+        //                if (!string.IsNullOrEmpty(id)) {
+        //                    data.UpdateProperty(nameof(IAttachment.Attachments), files.GetValueOrDefault(id, []));
+        //                }
+        //            }
+        //            json.UpdateProperty(prop.Name, data ?? []);
+        //        } else if (IsListOfIMapAttachment(prop.PropertyType)) {
+        //            var data = json.GetValue(prop.Name) as JArray;
+        //            foreach (JObject item in (data ?? []).Cast<JObject>()) {
+        //                var id = item.GetValue(nameof(IAttachment.Id))?.ToString();
+        //                if (!string.IsNullOrEmpty(id)) {
+        //                    item.UpdateProperty(nameof(IAttachment.Attachments), files.GetValueOrDefault(id, []));
+        //                }
+        //            }
+        //            json.UpdateProperty(prop.Name, data ?? []);
+        //        }
+        //    }
 
-            return json.ToObject<T>()!;
-        }
+        //    return json.ToObject<T>()!;
+        //}
 
-        public static async Task<List<T>> FileAsync<T>(this IQueryable<T> query, CBContext db, CancellationToken token)
-            where T : IAttachment {
-            var data = await query.ToListAsync(token);
-            return await data.FileAsync(db, token);
-        }
+        //public static async Task<List<T>> FileAsync<T>(this IQueryable<T> query, CBContext db, CancellationToken token)
+        //    where T : IAttachment {
+        //    var data = await query.ToListAsync(token);
+        //    return await data.FileAsync(db, token);
+        //}
 
-        public static async Task<List<T>> FileAsync<T>(this List<T> data, CBContext db, CancellationToken token)
-            where T : IAttachment {
-            var ids = data.Select(o => o.Id.ToString()).ToList();
-            var attachments = await db.Attachments.AsNoTracking().Where(o => ids.Contains(o.ParentId.ToString()))
-                .Select(o => AttachmentDto.FromEntity(o)).ToListAsync(token);
-            var fileMaps = attachments.GroupBy(o => o.ParentId.ToString()).ToDictionary(o => o.Key, o => o.ToList());
+        //public static async Task<List<T>> FileAsync<T>(this List<T> data, CBContext db, CancellationToken token)
+        //    where T : IAttachment {
+        //    var ids = data.Select(o => o.Id.ToString()).ToList();
+        //    var attachments = await db.Attachments.AsNoTracking().Where(o => ids.Contains(o.ParentId.ToString()))
+        //        .Select(o => AttachmentDto.FromEntity(o)).ToListAsync(token);
+        //    var fileMaps = attachments.GroupBy(o => o.ParentId.ToString()).ToDictionary(o => o.Key, o => o.ToList());
 
-            foreach (var item in data) {
-                item.Attachments = fileMaps!.GetValueOrDefault(item.Id.ToString(), []);
-            }
+        //    foreach (var item in data) {
+        //        item.Attachments = fileMaps!.GetValueOrDefault(item.Id.ToString(), []);
+        //    }
 
-            return data;
-        }
+        //    return data;
+        //}
 
-        // Private methods
-        private static bool IsListOfIMapAttachment(Type type) {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>)) {
-                Type elementType = type.GetGenericArguments()[0];
-                return typeof(IAttachment).IsAssignableFrom(elementType);
-            }
-            return false;
-        }
+        //// Private methods
+        //private static bool IsListOfIMapAttachment(Type type) {
+        //    if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>)) {
+        //        Type elementType = type.GetGenericArguments()[0];
+        //        return typeof(IAttachment).IsAssignableFrom(elementType);
+        //    }
+        //    return false;
+        //}
 
-        private static async Task<List<AttachmentDto>> GetAttachmentFiles<T>(this T model, CBContext db, CancellationToken token)
-            where T : class {
-            var list = new List<string>();
-            if (typeof(T).IsClass && typeof(IAttachment).IsAssignableFrom(typeof(T))) {
-                var id = ((IAttachment)model).Id;
-                if (id != null) list.Add(id.ToString()!);
-            }
+        //private static async Task<List<AttachmentDto>> GetAttachmentFiles<T>(this T model, CBContext db, CancellationToken token)
+        //    where T : class {
+        //    var list = new List<string>();
+        //    if (typeof(T).IsClass && typeof(IAttachment).IsAssignableFrom(typeof(T))) {
+        //        var id = ((IAttachment)model).Id;
+        //        if (id != null) list.Add(id.ToString()!);
+        //    }
 
-            foreach (var prop in model.GetType().GetProperties()) {
-                if (typeof(IAttachment).IsAssignableFrom(prop.PropertyType)) {
-                    var value = prop.GetValue(model) as IAttachment;
-                    if (value?.Id != null) list.Add(value.Id.ToString()!);
-                } else if (IsListOfIMapAttachment(prop.PropertyType)) {
-                    var arr = prop.GetValue(model) as IEnumerable<object>;
-                    foreach (IAttachment item in (arr ?? []).Cast<IAttachment>()) {
-                        if (item.Id != null) {
-                            list.Add(item.Id.ToString()!);
-                        }
-                    }
-                }
-            }
+        //    foreach (var prop in model.GetType().GetProperties()) {
+        //        if (typeof(IAttachment).IsAssignableFrom(prop.PropertyType)) {
+        //            var value = prop.GetValue(model) as IAttachment;
+        //            if (value?.Id != null) list.Add(value.Id.ToString()!);
+        //        } else if (IsListOfIMapAttachment(prop.PropertyType)) {
+        //            var arr = prop.GetValue(model) as IEnumerable<object>;
+        //            foreach (IAttachment item in (arr ?? []).Cast<IAttachment>()) {
+        //                if (item.Id != null) {
+        //                    list.Add(item.Id.ToString()!);
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return await db.Attachments.Where(o => list.Contains(o.ParentId.ToString()))
-                .Select(o => AttachmentDto.FromEntity(o)).ToListAsync(token);
-        }
+        //    return await db.Attachments.Where(o => list.Contains(o.ParentId.ToString()))
+        //        .Select(o => AttachmentDto.FromEntity(o)).ToListAsync(token);
+        //}
     }
 }

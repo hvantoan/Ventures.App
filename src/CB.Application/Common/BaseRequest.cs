@@ -1,10 +1,9 @@
-﻿using MediatR;
-
-namespace CB.Application.Common;
+﻿namespace CB.Application.Common;
 
 public abstract class BaseRequest {
     public string MerchantId { get; set; } = string.Empty;
-    public string UserId { get; set; } = string.Empty;
+    public string? UserId { get; set; }
+    public TimeSpan Timezone { get; set; } = TimeSpan.Zero;
 }
 
 public abstract class Request : BaseRequest, IRequest {
@@ -29,10 +28,9 @@ public abstract class BasePaginatedRequest : BaseRequest {
     public bool IsCount { get; set; }
     public string? SearchText { get; set; }
     public string? FirstItemId { get; set; }
-    public bool ShowAll { get; set; }
 
-    public int Skip => PageIndex * PageSize;
-    public int Take => PageSize;
+    public int Skip => this.PageIndex * this.PageSize;
+    public int Take => this.PageSize;
 }
 
 public class PaginatedRequest : BasePaginatedRequest, IRequest {

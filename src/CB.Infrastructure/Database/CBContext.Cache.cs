@@ -13,7 +13,7 @@ namespace CB.Infrastructure.Database {
             if (permissions.IsEmpty) {
                 var items = await this.Permissions.AsNoTracking().ToListAsync(cancellationToken);
                 foreach (var item in items) {
-                    permissions.AddOrUpdate(item.Id.ToString(), item, (_, _) => item);
+                    permissions.AddOrUpdate(item.Id, item, (_, _) => item);
                 }
             }
 

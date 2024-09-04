@@ -1,13 +1,12 @@
-﻿namespace CB.Domain.ExternalServices.Interfaces {
+﻿using CB.Domain.ExternalServices.Models;
 
-    public interface IRedisService {
+namespace CB.Domain.ExternalServices.Interfaces;
 
-        Task<T?> GetAsync<T>(string key);
+public interface IRedisService {
 
-        Task SetAsync(string key, object? data, TimeSpan? ttl = null);
+    Task<RedisValue<T>> GetAsync<T>(string key);
 
-        Task RemoveAsync(string key);
+    Task SetAsync(string key, object? data, TimeSpan? ttl = null);
 
-        bool TryGetValue<T>(string key, out T? result);
-    }
+    Task RemoveAsync(string key);
 }

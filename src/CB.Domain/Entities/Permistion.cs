@@ -1,16 +1,18 @@
-﻿using CB.Domain.Common.Interfaces;
+﻿using CB.Domain.Enums;
 
 namespace CB.Domain.Entities;
 
-public class Permission : IEntity, ICloneable {
-    public Guid Id { get; set; }
-    public Guid? ParentId { get; set; }
+public partial class Permission : ICloneable {
+    public string Id { get; set; } = null!;
+    public string? ParentId { get; set; }
     public string ClaimName { get; set; } = null!;
     public string DisplayName { get; set; } = null!;
     public bool IsDefault { get; set; }
     public bool IsActive { get; set; }
     public bool IsClaim { get; set; }
     public int OrderIndex { get; set; }
+    public EPermission Type { get; set; }
+
     public virtual ICollection<RolePermission>? RolePermissions { get; set; }
 
     public object Clone() {
@@ -23,6 +25,7 @@ public class Permission : IEntity, ICloneable {
             IsActive = IsActive,
             IsClaim = IsClaim,
             OrderIndex = OrderIndex,
+            Type = Type,
         };
     }
 }

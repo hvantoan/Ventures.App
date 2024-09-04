@@ -26,13 +26,12 @@ public static class JWTExtention {
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            RequireExpirationTime = false,
+            RequireExpirationTime = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSecret"]!))
         });
 
-        _ = services.AddAuthorization(options => {
-            options.DefaultPolicy = new AuthorizationPolicyBuilder()
-                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme, GoogleDefaults.AuthenticationScheme)
+        services.AddAuthorization(options => {
+            options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
                 .RequireAuthenticatedUser()
                 .Build();
         });

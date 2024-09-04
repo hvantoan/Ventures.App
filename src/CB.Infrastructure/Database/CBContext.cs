@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 namespace CB.Infrastructure.Database {
 
     public partial class CBContext : DbContext {
-        public DbSet<Attachment> Attachments => Set<Attachment>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<Permission> Permissions => Set<Permission>();
         public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
 
         public DbSet<User> Users => Set<User>();
+        public DbSet<Merchant> Merchants => Set<Merchant>();
+        public DbSet<ItemImage> ItemImages => Set<ItemImage>();
 
         public DbSet<Pricing> Pricings => Set<Pricing>();
         public DbSet<Feature> Features => Set<Feature>();
-
 
         public CBContext() {
         }
@@ -28,7 +28,7 @@ namespace CB.Infrastructure.Database {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Server=database.hvantoan.io.vn;Port=5432;Database=postgres;Pooling=true;");
+                optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Server=database.hvantoan.io.vn;Port=5432;Database=ventures;Pooling=true;");
             }
         }
 

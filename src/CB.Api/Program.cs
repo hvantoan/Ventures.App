@@ -24,6 +24,7 @@ namespace CB.Api {
 
             builder.Services.AddMediatR();
             builder.Services.AddRedis(builder.Configuration);
+            builder.Services.AddResources();
 
             var app = builder.Build();
 

@@ -1,8 +1,8 @@
 ﻿namespace CB.Domain.Entities;
 
 public class RolePermission {
-    public Guid RoleId { get; set; }
-    public Guid PermissionId { get; set; }
+    public string RoleId { get; set; } = null!;
+    public string PermissionId { get; set; } = null!;
     public bool IsEnable { get; set; }
 
     public virtual Role? Role { get; set; }
