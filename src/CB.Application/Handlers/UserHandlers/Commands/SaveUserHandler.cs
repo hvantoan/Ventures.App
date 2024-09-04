@@ -63,7 +63,7 @@ public class SaveUserHandler : BaseHandler<SaveUserCommand, string> {
         var existed = await db.Users.AnyAsync(o => o.MerchantId == merchantId && o.Id != model.Id && o.Username == model.Username && !o.IsDelete && !o.IsSystem, cancellationToken);
         CbException.ThrowIf(existed, Messages.User_Existed);
 
-        var user = await db.Users.FirstOrDefaultAsync(o => o.MerchantId == merchantId && o.Id == model.Id && o.Username == model.Username && !o.IsDelete && !o.IsSystem, cancellationToken);
+        var user = await db.Users.AsTracking().FirstOrDefaultAsync(o => o.MerchantId == merchantId && o.Id == model.Id && o.Username == model.Username && !o.IsDelete && !o.IsSystem, cancellationToken);
         CbException.ThrowIf(user == null, Messages.User_NotFound);
         CbException.ThrowIf(user.IsAdmin && !model.IsActive, Messages.User_NotInactive);
         CbException.ThrowIf(string.IsNullOrWhiteSpace(model.Name), Messages.User_NameIsRequire);

@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CB.Domain.Common.Attributes;
 
 public class CbAuthorizeAttribute : AuthorizeAttribute {
 
-    public CbAuthorizeAttribute(params string[] claims) {
-        if (claims != null && claims.Any()) {
+    public CbAuthorizeAttribute(params string[] claims) : base() {
+        base.AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme;
+        if (claims != null && claims.Length != 0) {
             base.Roles = string.Join(',', claims);
         }
     }

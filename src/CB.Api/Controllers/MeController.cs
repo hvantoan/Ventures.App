@@ -8,11 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CB.Api.Controllers;
 
 [ApiController, CbAuthorize, Route("api/me")]
-public class MeController : BaseController {
-
-    public MeController(IServiceProvider serviceProvider) : base(serviceProvider) {
-    }
-
+public class MeController(IServiceProvider serviceProvider) : BaseController(serviceProvider) {
     [HttpGet]
     public async Task<Result> GetMe() {
         var data = await this.mediator.Send(new GetMeQuery {
