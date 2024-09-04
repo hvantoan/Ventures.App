@@ -54,4 +54,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
-          script: "eval `ssh-agent -s` && ssh-add ~/.ssh/github && cd ~/ctx/host-config && git pull && cd ventures && docker compose --compatibility up --remove-orphans --build -d"
+          script: "eval `ssh-agent -s` && ssh-add ~/.ssh/github && cd ~/ctx/host-config && git pull && cd ventures/apps && docker compose --compatibility up --remove-orphans --build -d"
