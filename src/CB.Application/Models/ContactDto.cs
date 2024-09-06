@@ -2,9 +2,9 @@
 
 namespace CB.Application.Models;
 public class ContactDto {
-    public string Id { get; set; } = null!;
+    public string Id { get; set; } = string.Empty;
     public string? UserId { get; set; }
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } = string.Empty;
     public string? Email { get; set; }
     public string? Phone { get; set; }
     public string? Address { get; set; }
@@ -34,7 +34,7 @@ public class ContactDto {
             Phone = Phone,
             Address = Address,
             CreateDate = CreateDate,
-            BankCard = BankCard?.ToEntity(),
+            BankCard = BankCard?.ToEntity(UserId),
         };
     }
 }

@@ -18,8 +18,17 @@ public class SaveContactHandler(IServiceProvider serviceProvider) : BaseHandler<
     }
 
     private async Task<string> Create(string userId, ContactDto model, CancellationToken cancellationToken) {
-        Contact contact = model.ToEntity();
-        contact.UserId = userId;
+        var contact = new Contact() {
+            Id = NGuidHelper.New(model.Id),
+            Name = model.Name,
+            Address = model.Address,
+            Email = model.Email,
+            Phone = model.Phone,
+            UserId = userId,
+            CreateDate = DateTime.UtcNow,
+            BankCard = model.BankCard?.ToEntity(userId)
+        };
+
         await db.Contacts.AddAsync(contact, cancellationToken);
         await db.SaveChangesAsync(cancellationToken);
         return contact.Id;

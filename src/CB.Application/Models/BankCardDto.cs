@@ -23,10 +23,10 @@ public class BankCardDto {
         };
     }
 
-    public BankCard ToEntity() {
+    public BankCard ToEntity(string? userId) {
         return new BankCard {
             Id = NGuidHelper.New(Id),
-            UserId = UserId,
+            UserId = !string.IsNullOrEmpty(userId) ? userId : UserId,
             CardNumber = CardNumber,
             CardBranch = CardBranch,
             Name = Name,
