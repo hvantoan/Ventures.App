@@ -1,4 +1,5 @@
-﻿using CB.Domain.Entities;
+﻿using CB.Domain.Common.Attributes;
+using CB.Domain.Entities;
 using CB.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -27,7 +28,7 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
 
         builder.HasData(new Permission {
             Id = "ec0f270b424249438540a16e9157c0c8",
-            ClaimName = "BO",
+            ClaimName = CbClaim.NoClaim.BO,
             DisplayName = "Trang quản lý",
             IsDefault = true,
             IsActive = true,
@@ -39,7 +40,19 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         builder.HasData(new Permission {
             Id = "b47bbb68c29e4880bb3a230620ce4e6e",
             ParentId = "ec0f270b424249438540a16e9157c0c8",
-            ClaimName = "BO.Dashboard",
+            ClaimName = CbClaim.Web.Dashboard,
+            DisplayName = "Tổng quan",
+            IsDefault = true,
+            IsActive = true,
+            IsClaim = true,
+            OrderIndex = index++,
+            Type = EPermission.Web,
+        });
+
+        builder.HasData(new Permission {
+            Id = "b47ccc68c29e4880bb3a230620ce4e7e",
+            ParentId = "ec0f270b424249438540a16e9157c0c8",
+            ClaimName = CbClaim.Web.Contact,
             DisplayName = "Tổng quan",
             IsDefault = true,
             IsActive = true,
@@ -51,7 +64,7 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         builder.HasData(new Permission {
             Id = "dc1c2ce584d74428b4e5241a5502787d",
             ParentId = "ec0f270b424249438540a16e9157c0c8",
-            ClaimName = "BO.Setting",
+            ClaimName = CbClaim.NoClaim.Setting,
             DisplayName = "Cài đặt",
             IsDefault = false,
             IsActive = true,
@@ -63,7 +76,7 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         builder.HasData(new Permission {
             Id = "b35cc06a567e420f8d0bda3426091048",
             ParentId = "dc1c2ce584d74428b4e5241a5502787d",
-            ClaimName = "BO.General",
+            ClaimName = CbClaim.NoClaim.General,
             DisplayName = "Cài đặt chung",
             IsDefault = false,
             IsActive = true,
@@ -75,7 +88,7 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         builder.HasData(new Permission {
             Id = "721bb6697d4c4579abc649ed838443cd",
             ParentId = "b35cc06a567e420f8d0bda3426091048",
-            ClaimName = "BO.General.Advanced",
+            ClaimName = CbClaim.Web.Setting_General_Api,
             DisplayName = "Cài đặt nâng cao",
             IsDefault = false,
             IsActive = true,
@@ -87,7 +100,7 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         builder.HasData(new Permission {
             Id = "296285809bac481890a454ea8aed6af4",
             ParentId = "dc1c2ce584d74428b4e5241a5502787d",
-            ClaimName = "BO.User",
+            ClaimName = CbClaim.Web.Setting_User,
             DisplayName = "Người dùng",
             IsDefault = false,
             IsActive = true,
@@ -97,7 +110,7 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         }, new Permission {
             Id = "98873832ebcb4d9fb12e9b21a187f12c",
             ParentId = "296285809bac481890a454ea8aed6af4",
-            ClaimName = "BO.User.Reset",
+            ClaimName = CbClaim.Web.Setting_User_Reset,
             DisplayName = "Đặt lại mật khẩu",
             IsDefault = false,
             IsActive = true,
@@ -109,7 +122,7 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         builder.HasData(new Permission {
             Id = "cb26c94262ab4863baa6c516edfde134",
             ParentId = "dc1c2ce584d74428b4e5241a5502787d",
-            ClaimName = "BO.Role",
+            ClaimName = CbClaim.Web.Setting_Role,
             DisplayName = "Phân quyền",
             IsDefault = false,
             IsActive = true,

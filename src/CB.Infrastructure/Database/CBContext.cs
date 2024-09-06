@@ -16,6 +16,7 @@ namespace CB.Infrastructure.Database {
 
         public DbSet<Pricing> Pricings => Set<Pricing>();
         public DbSet<Feature> Features => Set<Feature>();
+        public DbSet<Contact> Contacts => Set<Contact>();
 
         public CBContext() {
         }
