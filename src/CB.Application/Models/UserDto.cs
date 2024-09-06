@@ -24,6 +24,7 @@ public class UserDto {
     public bool IsAdmin { get; set; }
 
     public RoleDto? Role { get; set; }
+    public List<BankCardDto>? BankCards { get; set; }
 
     [return: NotNullIfNotNull(nameof(entity))]
     public static UserDto? FromEntity(User? entity, UnitResource? unitRes, Role? roleEntity = null) {
@@ -44,6 +45,7 @@ public class UserDto {
             IsActive = entity.IsActive,
             IsAdmin = entity.IsAdmin,
             Role = RoleDto.FromEntity(entity.Role),
+            BankCards = entity.BankCards?.Select(o => BankCardDto.FromEntity(o)).ToList(),
         };
     }
 }

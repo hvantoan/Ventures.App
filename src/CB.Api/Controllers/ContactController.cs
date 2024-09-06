@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CB.Api.Controllers;
 
-[ApiController, CbAuthorize, Route("api/contact")]
+[ApiController, CbAuthorize, Route("api/contacts")]
 public class ContactController(IServiceProvider serviceProvider) : BaseController(serviceProvider) {
 
     [HttpPost, Route("save")]

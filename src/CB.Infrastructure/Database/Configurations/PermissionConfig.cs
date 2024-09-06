@@ -53,7 +53,7 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
             Id = "b47ccc68c29e4880bb3a230620ce4e7e",
             ParentId = "ec0f270b424249438540a16e9157c0c8",
             ClaimName = CbClaim.Web.Contact,
-            DisplayName = "Tổng quan",
+            DisplayName = "Liên hệ",
             IsDefault = true,
             IsActive = true,
             IsClaim = true,

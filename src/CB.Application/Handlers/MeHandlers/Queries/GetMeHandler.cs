@@ -8,7 +8,7 @@ public class GetMeHandler(IServiceProvider serviceProvider) : BaseHandler<GetMeQ
     private readonly UnitResource unitRes = serviceProvider.GetRequiredService<UnitResource>();
 
     public override async Task<UserDto?> Handle(GetMeQuery request, CancellationToken cancellationToken) {
-        var user = await db.Users.AsNoTracking()
+        var user = await db.Users.Include(o => o.BankCards)
             .Where(o => o.MerchantId == request.MerchantId && o.Id == request.UserId && !o.IsDelete && !o.IsSystem)
             .FirstOrDefaultAsync(cancellationToken);
 
