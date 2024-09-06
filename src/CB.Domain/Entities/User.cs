@@ -47,14 +47,6 @@ public partial class User : IEntity {
     public long LastSession { get; set; }
 
     public virtual Role? Role { get; set; }
-}
-
-public partial class User {
-
-    public string GetName() {
-        var name = this.Name ?? "";
-        if (string.IsNullOrWhiteSpace(name))
-            name = this.Username ?? "";
-        return name;
-    }
+    public virtual ICollection<Contact>? Contacts { get; set; }
+    public virtual ICollection<BankCard>? BankCards { get; set; }
 }

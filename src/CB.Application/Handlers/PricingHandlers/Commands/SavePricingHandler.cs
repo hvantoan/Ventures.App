@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace CB.Application.Handlers.PricingHandlers.Commands;
+﻿namespace CB.Application.Handlers.PricingHandlers.Commands;
 
 public class SavePricingCommand : ModelRequest<PricingDto, Guid> {
 }

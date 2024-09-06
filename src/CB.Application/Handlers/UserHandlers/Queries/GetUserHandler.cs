@@ -1,4 +1,6 @@
 ﻿using CB.Domain.Common.Resource;
+using CB.Domain.Constants;
+using CB.Domain.Extentions;
 
 namespace CB.Application.Handlers.UserHandlers.Queries;
 
@@ -11,8 +13,7 @@ public class GetUserHandler(IServiceProvider serviceProvider) : BaseHandler<GetU
         var user = await db.Users.AsNoTracking()
             .Where(o => o.MerchantId == request.MerchantId && o.Id == request.Id && !o.IsDelete && !o.IsSystem)
             .FirstOrDefaultAsync(cancellationToken);
-
-        if (user == null) return null;
+        CbException.ThrowIfNull(user, Messages.User_NotFound);
 
         Role? role = null;
         if (!string.IsNullOrEmpty(user.RoleId)) {

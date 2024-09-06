@@ -25,4 +25,7 @@ public static class Messages {
     public const string Merchant_Expired = "Khách hàng không tồn tại.";
     public const string Merchant_Inactive = "Khách hàng không hoạt động.";
 
+    public const string Contact_NotFound = "Liên hệ không tồn tại.";
+
+
 }
