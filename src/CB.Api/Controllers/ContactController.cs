@@ -27,4 +27,14 @@ public class ContactController(IServiceProvider serviceProvider) : BaseControlle
         var data = await mediator.Send(req);
         return Result.Ok(data);
     }
+
+    [HttpGet, CbAuthorize(CbClaim.Web.Contact), Route("{id}")]
+    public async Task<Result> Get([FromRoute] string id) {
+        var data = await mediator.Send(new GetContactCommand {
+            MerchantId = this.merchantId,
+            UserId = this.userId,
+            Id = id
+        });
+        return Result.Ok(data);
+    }
 }
