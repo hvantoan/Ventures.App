@@ -36,7 +36,7 @@ public static class SwaggerExtention {
     public static IApplicationBuilder UseSwag(this IApplicationBuilder app) {
         app.UseSwagger().UseSwaggerUI(options => {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ventures API v1");
-            options.DocExpansion(DocExpansion.None);
+            options.DocExpansion(DocExpansion.List);
         });
         return app;
     }

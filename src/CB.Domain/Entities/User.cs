@@ -49,4 +49,5 @@ public partial class User : IEntity {
     public virtual Role? Role { get; set; }
     public virtual ICollection<Contact>? Contacts { get; set; }
     public virtual ICollection<BankCard>? BankCards { get; set; }
+    public virtual ICollection<Account>? Accounts { get; set; }
 }
