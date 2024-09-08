@@ -27,5 +27,7 @@ public static class Messages {
 
     public const string Contact_NotFound = "Liên hệ không tồn tại.";
 
+    public const string File_NotEmpty = "File không được để trống";
+
 
 }

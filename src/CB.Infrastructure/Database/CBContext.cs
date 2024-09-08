@@ -18,6 +18,8 @@ namespace CB.Infrastructure.Database {
         public DbSet<Feature> Features => Set<Feature>();
         public DbSet<Contact> Contacts => Set<Contact>();
 
+        public DbSet<Bot> Bots => Set<Bot>();
+
         public CBContext() {
         }
 

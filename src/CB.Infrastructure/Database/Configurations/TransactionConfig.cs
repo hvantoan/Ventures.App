@@ -11,10 +11,10 @@ internal class TransactionConfig : IEntityTypeConfiguration<Transaction> {
 
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).HasMaxLength(32);
-        builder.Property(o => o.AccountId).HasMaxLength(32).IsFixedLength();
+        builder.Property(o => o.UserBotId).HasMaxLength(32).IsFixedLength();
 
         //fk
 
-        builder.HasOne(o => o.Account).WithMany(o => o.Transactions).HasForeignKey(o => o.AccountId);
+        builder.HasOne(o => o.UserBot).WithMany(o => o.Transactions).HasForeignKey(o => o.UserBotId);
     }
 }
