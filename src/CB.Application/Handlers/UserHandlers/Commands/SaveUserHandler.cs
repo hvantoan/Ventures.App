@@ -1,6 +1,8 @@
 ﻿using CB.Domain.Common.Hashers;
 using CB.Domain.Constants;
+using CB.Domain.Enums;
 using CB.Domain.Extentions;
+using CB.Infrastructure.Services.Interfaces;
 
 namespace CB.Application.Handlers.UserHandlers.Commands;
 
@@ -8,12 +10,8 @@ public class SaveUserCommand : ModelRequest<UserDto, string> {
     public bool IsSelfUpdate { get; set; }
 }
 
-public class SaveUserHandler : BaseHandler<SaveUserCommand, string> {
-    private readonly IMediator mediator;
-
-    public SaveUserHandler(IServiceProvider serviceProvider) : base(serviceProvider) {
-        mediator = serviceProvider.GetRequiredService<IMediator>();
-    }
+public class SaveUserHandler(IServiceProvider serviceProvider) : BaseHandler<SaveUserCommand, string>(serviceProvider) {
+    private readonly IImageService imageService = serviceProvider.GetRequiredService<IImageService>();
 
     public override async Task<string> Handle(SaveUserCommand request, CancellationToken cancellationToken) {
         var merchantId = request.MerchantId;
@@ -56,6 +54,10 @@ public class SaveUserHandler : BaseHandler<SaveUserCommand, string> {
         await db.Users.AddAsync(user, cancellationToken);
         await db.SaveChangesAsync(cancellationToken);
 
+        if (model.Avatar.Data != null && model.Avatar.Data.Length > 0) {
+            await this.imageService.Save(merchantId, EItemImage.UserAvatar, model.Id!, model.Avatar);
+        }
+
         return user.Id;
     }
 
@@ -83,6 +85,12 @@ public class SaveUserHandler : BaseHandler<SaveUserCommand, string> {
         }
 
         await db.SaveChangesAsync(cancellationToken);
+
+        if (model.Avatar.Data != null && model.Avatar.Data.Length > 0) {
+            var logos = await this.imageService.List(merchantId, EItemImage.UserAvatar, model.Id!, false);
+            await this.imageService.Save(merchantId, EItemImage.UserAvatar, model.Id!, model.Avatar, entity: logos.FirstOrDefault());
+        }
+
         return user.Id;
     }
 

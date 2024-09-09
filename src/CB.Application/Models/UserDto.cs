@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using CB.Domain.Common.Resource;
 using CB.Domain.Extentions;
+using CB.Domain.ExternalServices.Models;
 
 namespace CB.Application.Models;
 
@@ -26,8 +27,10 @@ public class UserDto {
     public RoleDto? Role { get; set; }
     public List<BankCardDto>? BankCards { get; set; }
 
+    public ImageDto Avatar { get; set; } = new();
+
     [return: NotNullIfNotNull(nameof(entity))]
-    public static UserDto? FromEntity(User? entity, UnitResource? unitRes, Role? roleEntity = null) {
+    public static UserDto? FromEntity(User? entity, UnitResource? unitRes, Role? roleEntity = null, string? url = null, ItemImage? avatar = null) {
         if (entity == null) return default;
         entity.Role ??= roleEntity;
 
@@ -45,6 +48,7 @@ public class UserDto {
             IsActive = entity.IsActive,
             IsAdmin = entity.IsAdmin,
             Role = RoleDto.FromEntity(entity.Role),
+            Avatar = ImageDto.FromEntity(avatar, url) ?? new ImageDto(),
             BankCards = entity.BankCards?.Select(o => BankCardDto.FromEntity(o)).ToList(),
         };
     }

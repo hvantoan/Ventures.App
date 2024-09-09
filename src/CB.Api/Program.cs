@@ -26,6 +26,9 @@ namespace CB.Api {
             builder.Services.AddRedis(builder.Configuration);
             builder.Services.AddResources();
 
+            // Infastructure
+            builder.Services.AddInternalService();
+
             var app = builder.Build();
 
             app.UseSwag();

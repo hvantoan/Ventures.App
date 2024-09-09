@@ -1,11 +1,14 @@
 ﻿using CB.Domain.Constants;
+using CB.Domain.Enums;
 using CB.Domain.Extentions;
+using CB.Infrastructure.Services.Interfaces;
 
 namespace CB.Application.Handlers.MerchantHandlers.Commands;
 
 public class SaveMerchantCommand : ModelRequest<MerchantDto> { }
 
 public class SaveMerchantHandler(IServiceProvider serviceProvider) : BaseHandler<SaveMerchantCommand>(serviceProvider) {
+    public readonly IImageService imageService = serviceProvider.GetRequiredService<IImageService>();
 
     public override async Task Handle(SaveMerchantCommand request, CancellationToken cancellationToken) {
         var model = request.Model;
@@ -23,5 +26,10 @@ public class SaveMerchantHandler(IServiceProvider serviceProvider) : BaseHandler
         entity.District = model.District?.Code;
         entity.Province = model.Province?.Code;
         await db.SaveChangesAsync(cancellationToken);
+
+        if (model.Logo.Data != null && model.Logo.Data.Length > 0) {
+            var logos = await this.imageService.List(merchantId, EItemImage.MerchantLogo, model.Id!, false);
+            await this.imageService.Save(merchantId, EItemImage.MerchantLogo, model.Id!, model.Logo, entity: logos.FirstOrDefault());
+        }
     }
 }

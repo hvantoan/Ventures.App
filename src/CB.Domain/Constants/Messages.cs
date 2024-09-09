@@ -30,4 +30,7 @@ public static class Messages {
     public const string File_NotEmpty = "File không được để trống";
 
 
+    // Image
+    public const string Image_Error = "Đã có lỗi xảy ra khi lưu hình ảnh.";
+
 }
