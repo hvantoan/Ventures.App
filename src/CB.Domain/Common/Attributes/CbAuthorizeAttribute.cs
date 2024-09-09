@@ -22,6 +22,7 @@ public static class CbClaim {
         public const string Setting_User = "BO.User";
         public const string Setting_User_Reset = "BO.User.Reset";
         public const string Setting_Role = "BO.Role";
+        public const string Transaction = "BO.Transaction";
     }
 
     public static class NoClaim {

@@ -34,5 +34,6 @@ internal class UserConfig : IEntityTypeConfiguration<User> {
 
         builder.HasMany(o => o.Contacts).WithOne(o => o.User).HasForeignKey(o => o.UserId);
         builder.HasMany(o => o.BankCards).WithOne(o => o.User).HasForeignKey(o => o.UserId);
+        builder.HasMany(o => o.UserBots).WithOne(o => o.User).HasForeignKey(o => o.UserId);
     }
 }
