@@ -19,7 +19,7 @@ internal class ListContactHandler(IServiceProvider serviceProvider) : BaseHandle
 
         return new ListContact {
             Count = await query.CountAsync(cancellationToken),
-            Items = await query.Skip(request.Skip).Take(request.Take).Select(o => ContactDto.FromEntity(o, o.BankCard)).ToListAsync(cancellationToken)
+            Items = await query.Skip(request.Skip).Take(request.Take).Select(o => ContactDto.FromEntity(o, o.BankCard, null, null, null, null, null)).ToListAsync(cancellationToken)
         };
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Constants;
+using CB.Domain.Enums;
 using CB.Domain.Extentions;
 
 namespace CB.Application.Handlers.ContactHandlers.Queries;
@@ -13,6 +14,19 @@ internal class GetContactHandler(IServiceProvider serviceProvider) : BaseHandler
             .FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
 
         CbException.ThrowIfNull(contact, Messages.Contact_NotFound);
-        return ContactDto.FromEntity(contact, contact.BankCard);
+
+        // Get images (logo)
+        var typeInclued = new List<EItemImage> { EItemImage.UserFontBankCard, EItemImage.UserBackBankCard, EItemImage.UserFontIdentityCard, EItemImage.UserBackIdentityCard };
+        var images = await this.db.ItemImages.AsNoTracking()
+            .Where(o => o.MerchantId == request.MerchantId && (o.ItemId == contact.Id || o.ItemId == contact.BankCard!.Id))
+            .Where(o => typeInclued.Contains(o.ItemType))
+            .GroupBy(o => o.ItemType)
+            .ToDictionaryAsync(o => o.Key, v => v.ToList(), cancellationToken);
+        var fontBank = images.GetValueOrDefault(EItemImage.UserFontBankCard)?.FirstOrDefault();
+        var backBank = images.GetValueOrDefault(EItemImage.UserBackBankCard)?.FirstOrDefault();
+        var fontIdCard = images.GetValueOrDefault(EItemImage.UserFontIdentityCard)?.FirstOrDefault();
+        var backIdCard = images.GetValueOrDefault(EItemImage.UserBackIdentityCard)?.FirstOrDefault();
+
+        return ContactDto.FromEntity(contact, contact.BankCard, url, fontBank, backBank, fontIdCard, backIdCard);
     }
 }

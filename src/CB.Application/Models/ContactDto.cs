@@ -9,6 +9,7 @@ public class ContactDto {
     public string Name { get; set; } = string.Empty;
     public string? Email { get; set; }
     public string? Phone { get; set; }
+    public string IdentityCard { get; set; } = string.Empty;
     public string? Address { get; set; }
     public DateTime CreateDate { get; set; }
     public BankCardDto? BankCard { get; set; }
@@ -27,6 +28,7 @@ public class ContactDto {
             Name = entity.Name,
             Email = entity.Email,
             Phone = entity.Phone,
+            IdentityCard = entity.IdentityCard,
             Address = entity.Address,
             CreateDate = entity.CreateDate,
             BankCard = bankCard != null ? BankCardDto.FromEntity(bankCard, url, fontBank, backBank) : null,
@@ -42,6 +44,7 @@ public class ContactDto {
             Name = Name,
             Email = Email,
             Phone = Phone,
+            IdentityCard = IdentityCard,
             Address = Address,
             CreateDate = CreateDate,
             BankCard = BankCard?.ToEntity(UserId),

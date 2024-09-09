@@ -24,11 +24,12 @@ public class SaveContactHandler(IServiceProvider serviceProvider) : BaseHandler<
     private async Task<string> Create(string merchantId, string userId, ContactDto model, CancellationToken cancellationToken) {
         var contact = new Contact() {
             Id = NGuidHelper.New(model.Id),
+            UserId = userId,
             Name = model.Name,
             Address = model.Address,
             Email = model.Email,
             Phone = model.Phone,
-            UserId = userId,
+            IdentityCard = model.IdentityCard,
             CreateDate = DateTime.UtcNow,
             BankCard = model.BankCard?.ToEntity(userId)
         };
@@ -37,19 +38,19 @@ public class SaveContactHandler(IServiceProvider serviceProvider) : BaseHandler<
         await db.SaveChangesAsync(cancellationToken);
 
         if (model.FrontIdentityCard.Data != null && model.FrontIdentityCard.Data.Length > 0) {
-            await this.imageService.Save(merchantId, EItemImage.UserFontIdentityCard, model.Id!, model.FrontIdentityCard);
+            await this.imageService.Save(merchantId, EItemImage.UserFontIdentityCard, contact.Id!, model.FrontIdentityCard);
         }
 
         if (model.BackIdentityCard.Data != null && model.BackIdentityCard.Data.Length > 0) {
-            await this.imageService.Save(merchantId, EItemImage.UserBackIdentityCard, model.Id!, model.BackIdentityCard);
+            await this.imageService.Save(merchantId, EItemImage.UserBackIdentityCard, contact.Id!, model.BackIdentityCard);
         }
 
         if (model.BankCard?.FrontBankCard.Data != null && model.BankCard?.FrontBankCard.Data.Length > 0) {
-            await this.imageService.Save(merchantId, EItemImage.UserFontBankCard, model.BankCard.Id!, model.BankCard.FrontBankCard);
+            await this.imageService.Save(merchantId, EItemImage.UserFontBankCard, contact.BankCard!.Id!, model.BankCard.FrontBankCard);
         }
 
         if (model.BankCard?.BackBankCard.Data != null && model.BankCard?.BackBankCard.Data.Length > 0) {
-            await this.imageService.Save(merchantId, EItemImage.UserBackBankCard, model.BankCard.Id!, model.BankCard.BackBankCard);
+            await this.imageService.Save(merchantId, EItemImage.UserBackBankCard, contact.BankCard!.Id!, model.BankCard.BackBankCard);
         }
 
         return contact.Id;

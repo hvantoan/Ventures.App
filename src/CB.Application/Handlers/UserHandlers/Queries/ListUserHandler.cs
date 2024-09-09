@@ -20,7 +20,7 @@ public class ListUserHandler(IServiceProvider serviceProvider) : BaseHandler<Lis
         UserDto? firstItem = null;
         if (string.IsNullOrWhiteSpace(request.SearchText) && !string.IsNullOrWhiteSpace(request.FirstItemId) && request.PageIndex == 0) {
             firstItem = await query.Where(o => o.Id == request.FirstItemId)
-                .Select(o => UserDto.FromEntity(o, unitRes, null))
+                .Select(o => UserDto.FromEntity(o, unitRes, null, null, null))
                 .FirstOrDefaultAsync(cancellationToken);
             if (firstItem != null) {
                 request.PageSize--;
@@ -30,7 +30,7 @@ public class ListUserHandler(IServiceProvider serviceProvider) : BaseHandler<Lis
 
         var items = await query.OrderByDescending(o => o.IsAdmin).ThenBy(o => o.Username)
         .Skip(request.PageIndex * request.PageSize).Take(request.PageSize)
-            .Select(o => UserDto.FromEntity(o, unitRes, null)).ToListAsync(cancellationToken);
+            .Select(o => UserDto.FromEntity(o, unitRes, null, null, null)).ToListAsync(cancellationToken);
 
         if (firstItem != null) items.Insert(0, firstItem);
 
