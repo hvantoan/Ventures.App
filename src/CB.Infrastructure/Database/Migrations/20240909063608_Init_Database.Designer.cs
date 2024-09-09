@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CB.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(CBContext))]
-    [Migration("20240906074226_Add_Contact_Table")]
-    partial class Add_Contact_Table
+    [Migration("20240909063608_Init_Database")]
+    partial class Init_Database
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,40 @@ namespace CB.Infrastructure.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("BankCard", "public");
+                });
+
+            modelBuilder.Entity("CB.Domain.Entities.Bot", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bot", "public");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ec0f270b424249438540a16e9157c0c8",
+                            Description = "Bot giao dịch tự động Forex",
+                            Name = "CBV_SynthFX"
+                        },
+                        new
+                        {
+                            Id = "ec0f272b424249938540a16e9157c0c8",
+                            Description = "Bot giao dịch cổ phiếu",
+                            Name = "FX_Trader"
+                        });
                 });
 
             modelBuilder.Entity("CB.Domain.Entities.Contact", b =>
@@ -308,7 +342,7 @@ namespace CB.Infrastructure.Database.Migrations
                         {
                             Id = "b47ccc68c29e4880bb3a230620ce4e7e",
                             ClaimName = "BO.Contact",
-                            DisplayName = "Tổng quan",
+                            DisplayName = "Liên hệ",
                             IsActive = true,
                             IsClaim = true,
                             IsDefault = true,
@@ -467,6 +501,34 @@ namespace CB.Infrastructure.Database.Migrations
                     b.ToTable("RolePermission", "public");
                 });
 
+            modelBuilder.Entity("CB.Domain.Entities.Transaction", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTimeOffset>("TransactionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserBotId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character(32)")
+                        .IsFixedLength();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserBotId");
+
+                    b.ToTable("Transaction", "public");
+                });
+
             modelBuilder.Entity("CB.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -549,6 +611,53 @@ namespace CB.Infrastructure.Database.Migrations
                     b.ToTable("User", "public");
                 });
 
+            modelBuilder.Entity("CB.Domain.Entities.UserBot", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("BotId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character(32)")
+                        .IsFixedLength();
+
+                    b.Property<string>("BrokerServer")
+                        .HasColumnType("text");
+
+                    b.Property<long>("EV")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ID_MT4")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("PassView")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PassWeb")
+                        .HasColumnType("text");
+
+                    b.Property<long>("Ref")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character(32)")
+                        .IsFixedLength();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BotId");
+
+                    b.HasIndex("UserId", "BotId");
+
+                    b.ToTable("UserBot", "public");
+                });
+
             modelBuilder.Entity("CB.Domain.Entities.BankCard", b =>
                 {
                     b.HasOne("CB.Domain.Entities.User", "User")
@@ -607,6 +716,17 @@ namespace CB.Infrastructure.Database.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("CB.Domain.Entities.Transaction", b =>
+                {
+                    b.HasOne("CB.Domain.Entities.UserBot", "UserBot")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserBotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserBot");
+                });
+
             modelBuilder.Entity("CB.Domain.Entities.User", b =>
                 {
                     b.HasOne("CB.Domain.Entities.Role", "Role")
@@ -614,6 +734,30 @@ namespace CB.Infrastructure.Database.Migrations
                         .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("CB.Domain.Entities.UserBot", b =>
+                {
+                    b.HasOne("CB.Domain.Entities.Bot", "Bot")
+                        .WithMany("UserBots")
+                        .HasForeignKey("BotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CB.Domain.Entities.User", "User")
+                        .WithMany("UserBots")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bot");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CB.Domain.Entities.Bot", b =>
+                {
+                    b.Navigation("UserBots");
                 });
 
             modelBuilder.Entity("CB.Domain.Entities.Permission", b =>
@@ -638,6 +782,13 @@ namespace CB.Infrastructure.Database.Migrations
                     b.Navigation("BankCards");
 
                     b.Navigation("Contacts");
+
+                    b.Navigation("UserBots");
+                });
+
+            modelBuilder.Entity("CB.Domain.Entities.UserBot", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

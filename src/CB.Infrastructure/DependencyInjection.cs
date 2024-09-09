@@ -19,7 +19,6 @@ namespace CB.Infrastructure {
         public static void AutoMigration(this IServiceProvider serviceProvider) {
             using var scope = serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<CBContext>();
-            dbContext.Database.EnsureCreated();
             dbContext.Database.Migrate();
         }
     }

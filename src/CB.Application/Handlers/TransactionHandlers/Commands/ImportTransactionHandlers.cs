@@ -35,23 +35,22 @@ public class ImportTransactionHandlers(IServiceProvider serviceProvider) : BaseH
 
                     models.Add(new ImportTransactionModel {
                         RowNumber = row.RowNumber(),
-                        Name = row.Cell(1).GetString(),
-                        Email = row.Cell(2).GetString(),
-                        BrokerSever = row.Cell(3).GetString(),
-                        IDMT4 = (long)row.Cell(4).GetDouble(),
-                        PassView = row.Cell(5).GetString(),
-                        PassWeb = row.Cell(6).GetString(),
-                        Banlance = (decimal)row.Cell(7).GetDouble(),
-                        Bot = row.Cell(8).GetString(),
-                        Ev = (long)row.Cell(9).GetDouble(),
+                        TransactionDate = row.Cell(1).GetDateTime(),
+                        Name = row.Cell(2).GetString(),
+                        Email = row.Cell(3).GetString(),
+                        BrokerSever = row.Cell(4).GetString(),
+                        IDMT4 = (long)row.Cell(5).GetDouble(),
+                        PassView = row.Cell(6).GetString(),
+                        PassWeb = row.Cell(7).GetString(),
+                        Banlance = (decimal)row.Cell(8).GetDouble(),
+                        Bot = row.Cell(9).GetString(),
+                        Ev = (long)row.Cell(10).GetDouble(),
                         Ref = (long)row.Cell(10).GetDouble(),
                         InCome = (long)row.Cell(11).GetDouble(),
                         OutCome = (long)row.Cell(12).GetDouble(),
                         Description = row.Cell(13).GetString(),
                     });
                 }
-
-
 
                 var validator = new TransactionValidator();
                 foreach (var model in models) {

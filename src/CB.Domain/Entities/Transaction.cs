@@ -9,6 +9,5 @@ public class Transaction : IEntity {
     public decimal Amount { get; set; }
     public ETransactionType TransactionType { get; set; }
     public DateTimeOffset TransactionDate { get; set; }
-
     public virtual UserBot? UserBot { get; set; }
 }
