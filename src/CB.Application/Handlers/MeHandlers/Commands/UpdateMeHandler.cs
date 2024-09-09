@@ -1,11 +1,14 @@
 ﻿using CB.Domain.Constants;
+using CB.Domain.Enums;
 using CB.Domain.Extentions;
+using CB.Infrastructure.Services.Interfaces;
 
 namespace CB.Application.Handlers.MeHandlers.Commands;
 
 public class UpdateMeCommand : ModelRequest<UserDto> { }
 
 public class UpdateMeHandler(IServiceProvider serviceProvider) : BaseHandler<UpdateMeCommand>(serviceProvider) {
+    private readonly IImageService imageService = serviceProvider.GetRequiredService<IImageService>();
 
     public override async Task Handle(UpdateMeCommand request, CancellationToken cancellationToken) {
         var model = request.Model;
@@ -26,5 +29,10 @@ public class UpdateMeHandler(IServiceProvider serviceProvider) : BaseHandler<Upd
         user.Address = model.Address;
 
         await db.SaveChangesAsync(cancellationToken);
+
+        if (model.Avatar.Data != null && model.Avatar.Data.Length > 0) {
+            var avatars = await this.imageService.List(request.MerchantId, EItemImage.UserAvatar, model.Id!, false);
+            await this.imageService.Save(request.MerchantId, EItemImage.UserAvatar, model.Id!, model.Avatar, entity: avatars.FirstOrDefault());
+        }
     }
 }

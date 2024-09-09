@@ -22,6 +22,8 @@ public partial class User : IEntity {
 
     public string SearchName { get; set; } = null!;
 
+    public string? IdentityCard { get; set; }
+
     [Description("Số điện thoại")]
     public string? Phone { get; set; }
 

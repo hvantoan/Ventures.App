@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using CB.Domain.Common.Resource;
 using CB.Domain.Extentions;
+using CB.Domain.ExternalServices.Models;
 
 namespace CB.Application.Models;
 
@@ -16,6 +17,7 @@ public class UserDto {
 
     public string Name { get; set; } = string.Empty;
     public string? Phone { get; set; }
+    public string? IdentityCard { get; set; }
     public Domain.Common.Resource.Unit? Province { get; set; }
     public Domain.Common.Resource.Unit? District { get; set; }
     public Domain.Common.Resource.Unit? Commune { get; set; }
@@ -26,8 +28,10 @@ public class UserDto {
     public RoleDto? Role { get; set; }
     public List<BankCardDto>? BankCards { get; set; }
 
+    public ImageDto Avatar { get; set; } = new();
+
     [return: NotNullIfNotNull(nameof(entity))]
-    public static UserDto? FromEntity(User? entity, UnitResource? unitRes, Role? roleEntity = null) {
+    public static UserDto? FromEntity(User? entity, UnitResource? unitRes, Role? roleEntity = null, string? url = null, ItemImage? avatar = null) {
         if (entity == null) return default;
         entity.Role ??= roleEntity;
 
@@ -38,6 +42,7 @@ public class UserDto {
             Username = entity.Username,
             Name = entity.Name,
             Phone = entity.Phone,
+            IdentityCard = entity.IdentityCard,
             Province = au.GetValue(entity.Province),
             District = au.GetValue(entity.District),
             Commune = au.GetValue(entity.Commune),
@@ -45,6 +50,7 @@ public class UserDto {
             IsActive = entity.IsActive,
             IsAdmin = entity.IsAdmin,
             Role = RoleDto.FromEntity(entity.Role),
+            Avatar = ImageDto.FromEntity(avatar, url) ?? new ImageDto(),
             BankCards = entity.BankCards?.Select(o => BankCardDto.FromEntity(o)).ToList(),
         };
     }

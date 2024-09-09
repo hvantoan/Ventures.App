@@ -1,5 +1,6 @@
 ﻿using CB.Domain.Common.Resource;
 using CB.Domain.Constants;
+using CB.Domain.Enums;
 using CB.Domain.Extentions;
 
 namespace CB.Application.Handlers.MerchantHandlers.Queries;
@@ -15,6 +16,15 @@ public class GetMerchantHandler(IServiceProvider serviceProvider) : BaseHandler<
         CbException.ThrowIfFalse(merchant.IsActive, Messages.Merchant_Inactive);
         CbException.ThrowIf(merchant.ExpiredDate <= DateTimeOffset.UtcNow, Messages.Merchant_Expired);
 
-        return MerchantDto.FromEntity(merchant, unitResource, this.url);
+        // Get images (logo)
+        var typeInclued = new List<EItemImage> { EItemImage.MerchantLogo };
+        var images = await this.db.ItemImages.AsNoTracking()
+            .Where(o => o.MerchantId == request.MerchantId && o.ItemId == merchant.Id)
+            .Where(o => typeInclued.Contains(o.ItemType))
+            .GroupBy(o => o.ItemType)
+            .ToDictionaryAsync(o => o.Key, v => v.ToList(), cancellationToken);
+        var logo = images.GetValueOrDefault(EItemImage.MerchantLogo)?.FirstOrDefault();
+
+        return MerchantDto.FromEntity(merchant, unitResource, this.url, logo);
     }
 }

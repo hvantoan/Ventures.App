@@ -1,4 +1,6 @@
 ﻿using CB.Infrastructure.Database;
+using CB.Infrastructure.Services.Implements;
+using CB.Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +22,11 @@ namespace CB.Infrastructure {
             using var scope = serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<CBContext>();
             dbContext.Database.Migrate();
+        }
+
+        public static IServiceCollection AddInternalService(this IServiceCollection services) {
+            services.AddScoped<IImageService, ImageService>();
+            return services;
         }
     }
 }

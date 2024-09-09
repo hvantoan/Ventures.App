@@ -1,4 +1,6 @@
 ﻿using CB.Domain.Common.Resource;
+using CB.Domain.Enums;
+using CB.Infrastructure.Services.Interfaces;
 
 namespace CB.Application.Handlers.MeHandlers.Queries;
 
@@ -6,6 +8,7 @@ public class GetMeQuery : ModelRequest<UserDto, UserDto?> { }
 
 public class GetMeHandler(IServiceProvider serviceProvider) : BaseHandler<GetMeQuery, UserDto?>(serviceProvider) {
     private readonly UnitResource unitRes = serviceProvider.GetRequiredService<UnitResource>();
+    private readonly IImageService imageService = serviceProvider.GetRequiredService<IImageService>();
 
     public override async Task<UserDto?> Handle(GetMeQuery request, CancellationToken cancellationToken) {
         var user = await db.Users.Include(o => o.BankCards)
@@ -20,6 +23,8 @@ public class GetMeHandler(IServiceProvider serviceProvider) : BaseHandler<GetMeQ
                 .Where(o => o.MerchantId == request.MerchantId && o.Id == user.RoleId && !o.IsDelete)
                 .FirstOrDefaultAsync(cancellationToken);
         }
-        return UserDto.FromEntity(user, unitRes, role);
+
+        var images = await imageService.List(request.MerchantId, EItemImage.UserAvatar, user.Id, true);
+        return UserDto.FromEntity(user, unitRes, role, url, images.FirstOrDefault());
     }
 }

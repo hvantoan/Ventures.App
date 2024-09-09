@@ -2,7 +2,7 @@
 using CB.Domain.Enums;
 using CB.Domain.ExternalServices.Models;
 
-namespace CB.Domain.ExternalServices.Interfaces;
+namespace CB.Infrastructure.Services.Interfaces;
 
 public interface IImageService {
 

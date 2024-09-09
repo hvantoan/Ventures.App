@@ -2,7 +2,6 @@
 using CB.Domain.Common.Resource;
 using CB.Domain.ExternalServices.Models;
 
-
 namespace CB.Application.Models;
 
 public class MerchantDto {
@@ -16,15 +15,10 @@ public class MerchantDto {
     public Domain.Common.Resource.Unit? District { get; set; }
     public Domain.Common.Resource.Unit? Commune { get; set; }
 
-    public List<ImageDto> Banners { get; set; } = new();
     public ImageDto Logo { get; set; } = new();
-    public ImageDto Icon { get; set; } = new();
-    public ImageDto ReceiptLogo { get; set; } = new();
 
     [return: NotNullIfNotNull(nameof(entity))]
-    public static MerchantDto? FromEntity(Merchant? entity, UnitResource? unitResource = null, string? url = null,
-        List<ItemImage>? banners = null, ItemImage? logo = null,
-        ItemImage? icon = null, ItemImage? receiptLogo = null) {
+    public static MerchantDto? FromEntity(Merchant? entity, UnitResource? unitResource = null, string? url = null, ItemImage? logo = null) {
         if (entity == null) return default;
         return new MerchantDto {
             Id = entity.Id,
@@ -36,10 +30,7 @@ public class MerchantDto {
             Commune = unitResource?.GetByCode(entity.Commune),
             District = unitResource?.GetByCode(entity.District),
             Province = unitResource?.GetByCode(entity.Province),
-            Banners = banners?.Select(o => ImageDto.FromEntity(o, url)).ToList() ?? [],
             Logo = ImageDto.FromEntity(logo, url) ?? new ImageDto(),
-            Icon = ImageDto.FromEntity(icon, url) ?? new ImageDto(),
-            ReceiptLogo = ImageDto.FromEntity(receiptLogo, url) ?? new ImageDto(),
         };
     }
 

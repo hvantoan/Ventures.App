@@ -6,7 +6,7 @@ public partial class Contact : IEntity {
     public string Id { get; set; } = null!;
     public string? UserId { get; set; }
     public string BankCardId { get; set; } = null!;
-
+    public string IdentityCard { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string? Email { get; set; }
     public string? Phone { get; set; }

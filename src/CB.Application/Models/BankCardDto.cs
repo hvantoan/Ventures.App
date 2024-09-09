@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Extentions;
+using CB.Domain.ExternalServices.Models;
 
 namespace CB.Application.Models;
 
@@ -11,7 +12,10 @@ public class BankCardDto {
     public string? Cvv { get; set; }
     public string ExpirationDate { get; set; } = string.Empty;
 
-    public static BankCardDto FromEntity(BankCard entity) {
+    public ImageDto FrontBankCard { get; set; } = new();
+    public ImageDto BackBankCard { get; set; } = new();
+
+    public static BankCardDto FromEntity(BankCard entity, string? url = null, ItemImage? font = null, ItemImage? back = null) {
         return new BankCardDto {
             Id = entity.Id,
             UserId = entity.UserId,
@@ -19,7 +23,9 @@ public class BankCardDto {
             CardBranch = entity.CardBranch,
             Name = entity.Name,
             Cvv = entity.Cvv,
-            ExpirationDate = entity.ExpirationDate
+            ExpirationDate = entity.ExpirationDate,
+            FrontBankCard = ImageDto.FromEntity(font, url) ?? new ImageDto(),
+            BackBankCard = ImageDto.FromEntity(back, url) ?? new ImageDto(),
         };
     }
 
