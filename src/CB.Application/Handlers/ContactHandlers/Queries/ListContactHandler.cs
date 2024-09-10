@@ -12,7 +12,7 @@ internal class ListContactHandler(IServiceProvider serviceProvider) : BaseHandle
         var query = this.db.Contacts
             .Include(o => o.BankCard)
             .WhereIf(!string.IsNullOrEmpty(request.SearchText), o =>
-                        o.Name.Contains(request.SearchText!)
+                        o.SearchName.Contains(request.SearchText!)
                      || (!string.IsNullOrEmpty(o.Email) && o.Email.Contains(request.SearchText!))
                      || (!string.IsNullOrEmpty(o.Phone) && o.Phone.Contains(request.SearchText!))
             );

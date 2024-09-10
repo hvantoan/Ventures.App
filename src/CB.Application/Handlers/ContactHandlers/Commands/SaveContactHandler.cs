@@ -26,11 +26,12 @@ public class SaveContactHandler(IServiceProvider serviceProvider) : BaseHandler<
             Id = NGuidHelper.New(model.Id),
             UserId = userId,
             Name = model.Name,
+            SearchName = StringHelper.UnsignedUnicode(model.Name),
             Address = model.Address,
             Email = model.Email,
             Phone = model.Phone,
             IdentityCard = model.IdentityCard,
-            CreateDate = DateTime.UtcNow,
+            CreateAt = DateTime.UtcNow,
             BankCard = model.BankCard?.ToEntity(userId)
         };
 
