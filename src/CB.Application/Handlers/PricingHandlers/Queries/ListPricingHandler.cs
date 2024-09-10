@@ -1,7 +1,4 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-
-namespace CB.Application.Handlers.PricingHandlers.Queries;
+﻿namespace CB.Application.Handlers.PricingHandlers.Queries;
 
 public class ListPricingQuery : IRequest<List<PricingDto>> { }
 

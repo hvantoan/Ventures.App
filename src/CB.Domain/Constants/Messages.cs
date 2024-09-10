@@ -33,4 +33,6 @@ public static class Messages {
     // Image
     public const string Image_Error = "Đã có lỗi xảy ra khi lưu hình ảnh.";
 
+    public const string Bot_NotFound = "Bot không tồn tại";
+
 }

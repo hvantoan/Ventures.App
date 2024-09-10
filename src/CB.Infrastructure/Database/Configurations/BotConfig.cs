@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Entities;
+using CB.Domain.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,26 +11,15 @@ internal class BotConfig : IEntityTypeConfiguration<Bot> {
         builder.ToTable(nameof(Bot));
 
         builder.HasKey(o => o.Id);
-        builder.Property(o => o.Id).HasMaxLength(32);
+        builder.Property(o => o.Id).HasMaxLength(32).IsFixedLength();
+        builder.Property(o => o.MerchantId).HasMaxLength(32).IsFixedLength();
 
         builder.Property(o => o.Name).HasMaxLength(255);
         builder.Property(o => o.Description).HasMaxLength(2000);
+        builder.Property(o => o.CreatedAt).HasDateConversion().IsRequired();
 
         //fk
 
         builder.HasMany(o => o.UserBots).WithOne(o => o.Bot).HasForeignKey(o => o.BotId);
-
-        builder.HasData(
-            new Bot {
-                Id = "ec0f270b424249438540a16e9157c0c8",
-                Name = "CBV_SynthFX",
-                Description = "Bot giao dịch tự động Forex",
-            },
-            new Bot {
-                Id = "ec0f272b424249938540a16e9157c0c8",
-                Name = "FX_Trader",
-                Description = "Bot giao dịch cổ phiếu",
-            }
-        );
     }
 }

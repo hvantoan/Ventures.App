@@ -10,8 +10,9 @@ public partial class BankCard : IEntity {
     public string Name { get; set; } = null!;
     public string? Cvv { get; set; }
     public string ExpirationDate { get; set; } = null!;
-    public DateTimeOffset CreatedDate { get; set; }
+
     public bool IsDelete { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
     public virtual User? User { get; set; }
 }

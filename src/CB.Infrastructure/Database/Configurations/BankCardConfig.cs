@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Entities;
+using CB.Domain.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,6 +17,7 @@ internal class BankCardConfig : IEntityTypeConfiguration<BankCard> {
         builder.Property(o => o.CardNumber).HasMaxLength(255);
         builder.Property(o => o.CardBranch).HasMaxLength(255);
         builder.Property(o => o.Cvv).HasMaxLength(5);
+        builder.Property(o => o.CreatedAt).HasDateConversion().IsRequired();
 
         //fk
         builder.HasOne(o => o.User).WithMany(o => o.BankCards).HasForeignKey(o => o.UserId);

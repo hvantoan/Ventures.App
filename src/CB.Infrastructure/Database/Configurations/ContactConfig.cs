@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Entities;
+using CB.Domain.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,6 +17,7 @@ internal class ContactConfig : IEntityTypeConfiguration<Contact> {
         builder.Property(o => o.Email).HasMaxLength(255);
         builder.Property(o => o.Phone).HasMaxLength(20);
         builder.Property(o => o.Address).HasMaxLength(Int32.MaxValue);
+        builder.Property(o => o.CreateAt).HasDateConversion().IsRequired();
 
         builder.HasOne(o => o.User).WithMany(o => o.Contacts).HasForeignKey(o => o.UserId);
     }
