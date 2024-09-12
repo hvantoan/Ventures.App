@@ -2,7 +2,7 @@
 
 namespace CB.Domain.Entities;
 
-public class UserBot : IEntity {
+public partial class UserBot : IEntity {
     public string Id { get; set; } = null!;
     public string UserId { get; set; } = null!;
     public string BotId { get; set; } = null!;
@@ -17,5 +17,6 @@ public class UserBot : IEntity {
     public virtual User? User { get; set; }
     public virtual Bot? Bot { get; set; }
 
-    public virtual ICollection<Transaction>? Transactions { get; set; }
+    public virtual ICollection<Transaction> Transactions { get; set; } = [];
 }
+

@@ -1,6 +1,10 @@
-﻿namespace CB.Domain.Enums;
+﻿using System.ComponentModel;
+
+namespace CB.Domain.Enums;
 
 public enum ETransactionType {
-    INCOME = 1,
-    OUTCOME = 2,
+    [Description("Nộp")]
+    INCOME = 2,
+    [Description("Rút")]
+    OUTCOME = 3,
 }
