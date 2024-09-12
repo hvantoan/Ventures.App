@@ -19,5 +19,8 @@ public enum EItemImage {
     UserFontBankCard = 5,
 
     [Description("account")]
-    UserBackBankCard = 5,
+    UserBackBankCard = 6,
+
+    [Description("merchant")]
+    BotAvatar = 7,
 }

@@ -11,7 +11,7 @@ public class ContactDto {
     public string? Phone { get; set; }
     public string IdentityCard { get; set; } = string.Empty;
     public string? Address { get; set; }
-    public DateTime CreateDate { get; set; }
+    public DateTimeOffset CreateAt { get; set; }
     public BankCardDto? BankCard { get; set; }
 
     public ImageDto FrontIdentityCard { get; set; } = new();
@@ -30,7 +30,7 @@ public class ContactDto {
             Phone = entity.Phone,
             IdentityCard = entity.IdentityCard,
             Address = entity.Address,
-            CreateDate = entity.CreateDate,
+            CreateAt = entity.CreateAt,
             BankCard = bankCard != null ? BankCardDto.FromEntity(bankCard, url, fontBank, backBank) : null,
             FrontIdentityCard = ImageDto.FromEntity(fontIdCard, url) ?? new ImageDto(),
             BackIdentityCard = ImageDto.FromEntity(backIdCard, url) ?? new ImageDto()
@@ -46,7 +46,7 @@ public class ContactDto {
             Phone = Phone,
             IdentityCard = IdentityCard,
             Address = Address,
-            CreateDate = CreateDate,
+            CreateAt = CreateAt,
             BankCard = BankCard?.ToEntity(UserId),
         };
     }

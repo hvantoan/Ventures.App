@@ -22,7 +22,7 @@ public class ImageService(IServiceProvider serviceProvider) : IImageService {
 
     public async Task<List<ItemImage>> List(string merchantId, EItemImage itemType, List<string> itemIds, bool withNoTracking = true) {
         var query = this.db.ItemImages.Where(o => o.MerchantId == merchantId && o.ItemType == itemType && itemIds.Contains(o.ItemId));
-        if (withNoTracking) query = query.AsNoTracking();
+        if (!withNoTracking) query = query.AsTracking();
         return await query.ToListAsync();
     }
 
@@ -37,7 +37,7 @@ public class ImageService(IServiceProvider serviceProvider) : IImageService {
     }
 
     public async Task Delete(string id, ItemImage? entity) {
-        entity ??= await this.db.ItemImages.FirstOrDefaultAsync(o => o.Id == id);
+        entity ??= await this.db.ItemImages.AsTracking().FirstOrDefaultAsync(o => o.Id == id);
         CbException.ThrowIfNull(entity, Messages.Image_Error);
 
         await FtpHelper.DeleteFileAsync(entity.Image, configuration);

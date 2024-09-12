@@ -62,6 +62,28 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         });
 
         builder.HasData(new Permission {
+            Id = "b47ccc68c29e4990bb3a230620ce4e7e",
+            ParentId = "ec0f270b424249438540a16e9157c0c8",
+            ClaimName = CbClaim.NoClaim.Category,
+            DisplayName = "Danh mục",
+            IsDefault = false,
+            IsActive = true,
+            IsClaim = false,
+            OrderIndex = index++,
+            Type = EPermission.Web,
+        }, new Permission {
+            Id = "b47ccc68c29e4990aa3a230620ce4e7e",
+            ParentId = "b47ccc68c29e4990bb3a230620ce4e7e",
+            ClaimName = CbClaim.Web.Category_Bot,
+            DisplayName = "Bot",
+            IsDefault = false,
+            IsActive = true,
+            IsClaim = true,
+            OrderIndex = index++,
+            Type = EPermission.Web,
+        });
+
+        builder.HasData(new Permission {
             Id = "dc1c2ce584d74428b4e5241a5502787d",
             ParentId = "ec0f270b424249438540a16e9157c0c8",
             ClaimName = CbClaim.NoClaim.Setting,
