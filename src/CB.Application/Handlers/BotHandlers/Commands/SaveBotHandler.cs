@@ -33,13 +33,13 @@ internal class SaveBotHandler(IServiceProvider serviceProvider) : BaseHandler<Sa
             }
 
             await this.db.SaveChangesAsync(cancellationToken);
-            await transaction.CommitAsync(cancellationToken);
 
             if (model.Avatar.Data != null && model.Avatar.Data.Length > 0) {
                 var avatar = await this.imageService.List(request.MerchantId, EItemImage.BotAvatar, bot.Id!, true);
                 await this.imageService.Save(request.MerchantId, EItemImage.BotAvatar, bot.Id!, model.Avatar, entity: avatar.FirstOrDefault());
             }
 
+            await transaction.CommitAsync(cancellationToken);
             return bot.Id;
         } catch (Exception ex) {
             await transaction.RollbackAsync(cancellationToken);

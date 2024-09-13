@@ -32,24 +32,27 @@ public class ImportTransactionHandlers(IServiceProvider serviceProvider) : BaseH
                         headerRow = true;
                         continue;
                     }
-
-                    models.Add(new ImportTransactionModel {
-                        RowNumber = row.RowNumber(),
-                        TransactionDate = row.Cell(1).GetDateTime(),
-                        Name = row.Cell(2).GetString(),
-                        Email = row.Cell(3).GetString(),
-                        BrokerSever = row.Cell(4).GetString(),
-                        IDMT4 = (long)row.Cell(5).GetDouble(),
-                        PassView = row.Cell(6).GetString(),
-                        PassWeb = row.Cell(7).GetString(),
-                        Banlance = (decimal)row.Cell(8).GetDouble(),
-                        Bot = row.Cell(9).GetString(),
-                        Ev = (long)row.Cell(10).GetDouble(),
-                        Ref = (long)row.Cell(10).GetDouble(),
-                        InCome = (long)row.Cell(11).GetDouble(),
-                        OutCome = (long)row.Cell(12).GetDouble(),
-                        Description = row.Cell(13).GetString(),
-                    });
+                    try {
+                        models.Add(new ImportTransactionModel {
+                            RowNumber = row.RowNumber(),
+                            TransactionDate = row.Cell(1).GetDateTime(),
+                            Name = row.Cell(2).GetString(),
+                            Email = row.Cell(3).GetString(),
+                            BrokerSever = row.Cell(4).GetString(),
+                            IDMT4 = (long)row.Cell(5).GetDouble(),
+                            PassView = row.Cell(6).GetString(),
+                            PassWeb = row.Cell(7).GetString(),
+                            Banlance = (decimal)row.Cell(8).GetDouble(),
+                            Bot = row.Cell(9).GetString(),
+                            Ev = (long)row.Cell(10).GetDouble(),
+                            Ref = (long)row.Cell(10).GetDouble(),
+                            InCome = (long)row.Cell(11).GetDouble(),
+                            OutCome = (long)row.Cell(12).GetDouble(),
+                            Description = row.Cell(13).GetString(),
+                        });
+                    } catch (Exception) {
+                        continue;
+                    }
                 }
 
                 var validator = new TransactionValidator();

@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Entities;
+using CB.Domain.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,6 +14,7 @@ internal class UserBotConfig : IEntityTypeConfiguration<UserBot> {
         builder.Property(o => o.Id);
         builder.Property(o => o.UserId).HasMaxLength(32).IsFixedLength();
         builder.Property(o => o.BotId).HasMaxLength(32).IsFixedLength();
+        builder.Property(o => o.CreatAt).HasDateConversion().IsRequired();
 
         builder.HasIndex(o => new { o.UserId, o.BotId });
 

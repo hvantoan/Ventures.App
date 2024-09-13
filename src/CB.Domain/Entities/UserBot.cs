@@ -14,6 +14,10 @@ public partial class UserBot : IEntity {
     public long EV { get; set; }
     public long Ref { get; set; }
 
+
+    public DateTimeOffset CreatAt { get; set; }
+    public bool IsDelete { get; set; }
+
     public virtual User? User { get; set; }
     public virtual Bot? Bot { get; set; }
 

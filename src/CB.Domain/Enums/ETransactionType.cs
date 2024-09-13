@@ -3,8 +3,13 @@
 namespace CB.Domain.Enums;
 
 public enum ETransactionType {
+
+    [Description("Lợi nhuận")]
+    Profit = 1,
+
     [Description("Nộp")]
-    INCOME = 2,
+    Income = 2,
+
     [Description("Rút")]
-    OUTCOME = 3,
+    Outcome = 3,
 }

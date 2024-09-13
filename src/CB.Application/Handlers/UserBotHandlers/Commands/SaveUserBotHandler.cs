@@ -40,6 +40,7 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
             PassView = model.PassView,
             PassWeb = model.PassWeb,
             Ref = model.Ref,
+            CreatAt = DateTimeOffset.Now,
         };
 
         if (userBot.Balance > 0) {
@@ -48,7 +49,7 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
                 UserBotId = userBot.Id,
                 TransactionAt = DateTimeOffset.Now,
                 Amount = userBot.Balance,
-                TransactionType = ETransactionType.INCOME,
+                TransactionType = ETransactionType.Income,
             });
         }
 

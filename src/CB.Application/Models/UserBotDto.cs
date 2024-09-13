@@ -14,6 +14,8 @@ public class UserBotDto {
     public long EV { get; set; }
     public long Ref { get; set; }
 
+    public DateTimeOffset CreateAt { get; set; }
+
     public virtual UserDto? User { get; set; }
     public virtual BotDto? Bot { get; set; }
 
@@ -31,6 +33,7 @@ public class UserBotDto {
             ID_MT4 = entity.ID_MT4,
             EV = entity.EV,
             Ref = entity.Ref,
+            CreateAt = entity.CreatAt,
             Bot = bot == null ? null : BotDto.FromEntity(bot),
             User = user == null ? null : UserDto.FromEntity(user, unitRes),
         };
