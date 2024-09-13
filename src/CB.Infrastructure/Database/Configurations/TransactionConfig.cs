@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Entities;
+using CB.Domain.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,6 +13,7 @@ internal class TransactionConfig : IEntityTypeConfiguration<Transaction> {
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).HasMaxLength(32);
         builder.Property(o => o.UserBotId).HasMaxLength(32).IsFixedLength();
+        builder.Property(o => o.TransactionAt).HasDateConversion().IsRequired();
 
         //fk
 

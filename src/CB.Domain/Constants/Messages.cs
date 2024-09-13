@@ -17,9 +17,9 @@ public static class Messages {
     public const string Role_NotDeleted = "Không thể xóa role.";
     public const string Role_Existed = "Phân quyền đã tồn tại.";
 
-
     // Merchant
     public const string Request_Invalid = "Lỗi! Vui lòng kiểm tra lại thông tin.";
+
     public const string Merchant_Existed = "Khách hàng đã tồn tại.";
     public const string Merchant_NotFound = "Khách hàng không tồn tại.";
     public const string Merchant_Expired = "Khách hàng không tồn tại.";
@@ -29,10 +29,18 @@ public static class Messages {
 
     public const string File_NotEmpty = "File không được để trống";
 
-
     // Image
     public const string Image_Error = "Đã có lỗi xảy ra khi lưu hình ảnh.";
 
     public const string Bot_NotFound = "Bot không tồn tại";
+
+    // UserBot
+
+    public const string UserBot_NotFound = "Không tồn tại.";
+    public const string UserBot_BotRequired = "Vui lòng chọn BOT.";
+    public const string UserBot_UserRequired = "Vui lòng chọn người dùng.";
+    public const string UserBot_IdMT4Required = "ID_MT4 không được để trống.";
+
+    // Transaction
 
 }

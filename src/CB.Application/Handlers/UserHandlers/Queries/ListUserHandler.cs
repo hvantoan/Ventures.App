@@ -29,7 +29,7 @@ public class ListUserHandler(IServiceProvider serviceProvider) : BaseHandler<Lis
         }
 
         var items = await query.OrderByDescending(o => o.IsAdmin).ThenBy(o => o.Username)
-        .Skip(request.PageIndex * request.PageSize).Take(request.PageSize)
+            .WhereFunc(!request.IsAll, q => q.Skip(request.PageIndex * request.PageSize).Take(request.PageSize))
             .Select(o => UserDto.FromEntity(o, unitRes, null, null, null)).ToListAsync(cancellationToken);
 
         if (firstItem != null) items.Insert(0, firstItem);

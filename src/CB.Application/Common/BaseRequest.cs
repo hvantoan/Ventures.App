@@ -29,6 +29,8 @@ public abstract class BasePaginatedRequest : BaseRequest {
     public string? SearchText { get; set; }
     public string? FirstItemId { get; set; }
 
+    public bool IsAll { get; set; }
+
     public int Skip => this.PageIndex * this.PageSize;
     public int Take => this.PageSize;
 }
