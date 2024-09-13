@@ -46,7 +46,7 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
             userBot.Transactions.Add(new Transaction {
                 Id = NGuidHelper.New(),
                 UserBotId = userBot.Id,
-                TransactionDate = DateTime.Now,
+                TransactionAt = DateTimeOffset.Now,
                 Amount = userBot.Balance,
                 TransactionType = ETransactionType.INCOME,
             });

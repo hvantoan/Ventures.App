@@ -8,6 +8,6 @@ public class Transaction : IEntity {
     public string UserBotId { get; set; } = null!;
     public decimal Amount { get; set; }
     public ETransactionType TransactionType { get; set; }
-    public DateTimeOffset TransactionDate { get; set; }
+    public DateTimeOffset TransactionAt { get; set; }
     public virtual UserBot? UserBot { get; set; }
 }

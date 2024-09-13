@@ -32,7 +32,7 @@ internal class SaveTransactionHandler(IServiceProvider serviceProvider) : BaseHa
         var userBot = new Transaction() {
             Id = NGuidHelper.New(model.Id),
             Amount = model.Amount,
-            TransactionDate = model.TransactionDate,
+            TransactionAt = model.TransactionDate,
             TransactionType = model.TransactionType,
             UserBotId = model.UserBotId,
         };

@@ -15,7 +15,7 @@ public class TransactionDto {
         return new TransactionDto {
             Id = entity.Id,
             Amount = entity.Amount,
-            TransactionDate = entity.TransactionDate,
+            TransactionDate = entity.TransactionAt,
             TransactionType = entity.TransactionType,
             UserBotId = entity.UserBotId,
             UserBot = userBot == null ? null : UserBotDto.FromEntity(userBot, userBot.Bot, userBot.User, unitRes),
