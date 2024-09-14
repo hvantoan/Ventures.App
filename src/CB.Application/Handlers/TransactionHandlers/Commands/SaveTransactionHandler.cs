@@ -1,4 +1,5 @@
 ﻿using CB.Domain.Constants;
+using CB.Domain.Enums;
 using CB.Domain.Extentions;
 
 namespace CB.Application.Handlers.TransactionHandlers.Commands;
@@ -21,14 +22,21 @@ internal class SaveTransactionHandler(IServiceProvider serviceProvider) : BaseHa
            : await Update(merchantId, userId!, model, cancellationToken);
     }
 
-    private async Task Validate(TransactionDto? model) {
-        var botExits = await this.db.UserBots.AnyAsync(bot => bot.Id == model!.UserBotId);
+    private async Task Validate(TransactionDto model) {
+        var botExits = await this.db.UserBots.AnyAsync(bot => bot.Id == model.UserBotId && !bot.IsDelete);
         CbException.ThrowIf(!botExits, Messages.UserBot_NotFound);
-        var userExits = await this.db.Users.AnyAsync(o => o.Id == model!.Id && !o.IsDelete && !o.IsSystem);
+        var userExits = await this.db.Users.AnyAsync(o => o.Id == model.Id && !o.IsDelete && !o.IsSystem);
         CbException.ThrowIf(!botExits, Messages.UserBot_UserRequired);
+
+        if (model.TransactionType == ETransactionType.Outcome) {
+            var userBot = await this.db.UserBots.FirstOrDefaultAsync(o => o.Id == model.UserBotId && !o.IsDelete);
+            CbException.ThrowIf(userBot!.Balance - model.Amount < 0, Messages.Transaction_AmountNotRatherThanBalance);
+        }
+
     }
 
     private async Task<string> Create(string merchantId, string userId, TransactionDto model, CancellationToken cancellationToken) {
+
         var transaction = new Transaction() {
             Id = NGuidHelper.New(model.Id),
             Amount = model.Amount,

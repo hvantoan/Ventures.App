@@ -20,6 +20,7 @@ public class ExceptionMiddleware : IMiddleware {
     private static async Task HandleException(HttpContext context, int statusCode, Exception exception) {
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = statusCode;
+        Console.WriteLine(exception.Message);
         await context.Response.WriteAsync(Result.Fail(exception.Message).ToString());
     }
 }

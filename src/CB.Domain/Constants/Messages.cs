@@ -43,4 +43,6 @@ public static class Messages {
 
     // Transaction
 
+    public const string Transaction_AmountNotRatherThanBalance = "Số tiền rút không được lớn hơn tổng vốn.";
+
 }
