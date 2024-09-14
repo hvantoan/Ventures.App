@@ -63,11 +63,9 @@ public class ImageService(IServiceProvider serviceProvider) : IImageService {
         ArgumentNullException.ThrowIfNull(data);
 
         string fileType = EFile.Images.ToString().ToLower();
-        string folder = item.ItemType.Description().ToLower();
-        string imageType = item.ItemType.ToString().ToLower();
         string extentions = Path.GetExtension(item.Name);
 
-        var filename = $"{fileType}/{folder}/{item.MerchantId}/{imageType}/{item.Id}{extentions}";
+        var filename = $"{fileType}/{item.Id}{extentions}";
         await FtpHelper.UploadImageAsync(filename, data, configuration);
 
         return filename;
