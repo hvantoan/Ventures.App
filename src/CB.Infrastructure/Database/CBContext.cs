@@ -18,6 +18,7 @@ namespace CB.Infrastructure.Database {
         public DbSet<UserBot> UserBots => Set<UserBot>();
 
         public DbSet<Bot> Bots => Set<Bot>();
+        public DbSet<BotReport> BotReports => Set<BotReport>();
         public DbSet<Transaction> Transactions => Set<Transaction>();
 
         public DbSet<Pricing> Pricings => Set<Pricing>();

@@ -13,8 +13,8 @@ internal class ListUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
 
     public override async Task<ListUserBot> Handle(ListUserBotQuery request, CancellationToken cancellationToken) {
         var query = this.db.UserBots
-            .Include(o => o.User)
-            .Include(o => o.Bot)
+            .Include(o => o.User).Include(o => o.Bot)
+            .Where(o => o.MerchantId == request.MerchantId)
             .WhereIf(!string.IsNullOrEmpty(request.SearchText), o =>
                         o.Bot!.SearchName.Contains(request.SearchText!)
                     || (!string.IsNullOrEmpty(o.BrokerServer) && o.BrokerServer.Contains(request.SearchText!))

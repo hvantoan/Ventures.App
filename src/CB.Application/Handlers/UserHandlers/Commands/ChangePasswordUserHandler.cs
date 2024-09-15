@@ -9,10 +9,7 @@ public class ChangePasswordUserCommand : Request {
     public string NewPassword { get; set; } = null!;
 }
 
-public class ChangePasswordUserHandler : BaseHandler<ChangePasswordUserCommand> {
-
-    public ChangePasswordUserHandler(IServiceProvider serviceProvider) : base(serviceProvider) {
-    }
+public class ChangePasswordUserHandler(IServiceProvider serviceProvider) : BaseHandler<ChangePasswordUserCommand>(serviceProvider) {
 
     public override async Task Handle(ChangePasswordUserCommand request, CancellationToken cancellationToken) {
         var user = await db.Users.FirstOrDefaultAsync(o => o.Id == request.UserId

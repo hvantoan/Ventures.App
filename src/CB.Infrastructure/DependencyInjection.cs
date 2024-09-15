@@ -1,6 +1,8 @@
 ﻿using CB.Infrastructure.Database;
+using CB.Infrastructure.Jobs;
 using CB.Infrastructure.Services.Implements;
 using CB.Infrastructure.Services.Interfaces;
+using Coravel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,19 @@ namespace CB.Infrastructure {
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
+            return services;
+        }
+
+        public static IServiceCollection AddJobs(this IServiceCollection services, IConfiguration configuration) {
+            services.AddScheduler();
+            services.AddScoped<BotReportJob>();
+            return services;
+        }
+
+        internal static IServiceProvider UseJobs(this IServiceProvider services) {
+            services.UseScheduler(scheduler => {
+                scheduler.Schedule<BotReportJob>().Monthly().RunOnceAtStart();
+            }).OnError(ex => Console.WriteLine("Scheduler ERROR {0}", ex));
             return services;
         }
 

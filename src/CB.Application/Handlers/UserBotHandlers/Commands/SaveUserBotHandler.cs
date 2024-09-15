@@ -34,6 +34,7 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
             UserId = userId,
             Balance = model.Balance,
             BotId = model.Bot!.Id,
+            MerchantId = merchantId,
             BrokerServer = model.BrokerServer,
             EV = model.EV,
             ID_MT4 = model.ID_MT4,
@@ -47,6 +48,7 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
             userBot.Transactions.Add(new Transaction {
                 Id = NGuidHelper.New(),
                 UserBotId = userBot.Id,
+                MerchantId = merchantId
                 TransactionAt = DateTimeOffset.Now,
                 Amount = userBot.Balance,
                 TransactionType = ETransactionType.Income,

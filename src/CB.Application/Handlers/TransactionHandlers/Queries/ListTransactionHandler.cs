@@ -16,11 +16,12 @@ internal class ListTransactionHandler(IServiceProvider serviceProvider) : BaseHa
         var query = this.db.Transactions
             .Include(o => o.UserBot!).ThenInclude(o => o.User)
             .Include(o => o.UserBot!).ThenInclude(o => o.Bot)
+            .Where(o => o.MerchantId == request.MerchantId)
             .WhereIf(!string.IsNullOrEmpty(request.SearchText), o =>
                         o.UserBot!.BrokerServer!.Contains(request.SearchText!)
                     || o.UserBot.ID_MT4.ToString().Contains(request.SearchText!)
                     || o.UserBot.Bot!.Name.Contains(request.SearchText!)
-        )
+            )
             .WhereIf(!string.IsNullOrWhiteSpace(request.UserBotId), o => o.UserBotId == request.UserBotId)
             .OrderByDescending(o => o.TransactionAt);
 

@@ -16,8 +16,7 @@ public class ImportTransactionHandlers(IServiceProvider serviceProvider) : BaseH
     public override async Task<FileResult?> Handle(ImportTransactionCommand request, CancellationToken cancellationToken) {
         CbException.ThrowIf(request.File == null || request.File.Length == 0, Messages.File_NotEmpty);
 
-        var bots = await this.db.Bots.ToDictionaryAsync(o => o.Name, cancellationToken);
-
+        var bots = await this.db.Bots.Where(o => !o.IsDelete).ToDictionaryAsync(o => o.Name, cancellationToken);
         var models = new List<ImportTransactionModel>();
 
         using (var stream = new MemoryStream()) {
@@ -35,22 +34,20 @@ public class ImportTransactionHandlers(IServiceProvider serviceProvider) : BaseH
                     try {
                         models.Add(new ImportTransactionModel {
                             RowNumber = row.RowNumber(),
-                            TransactionDate = row.Cell(1).GetDateTime(),
-                            Name = row.Cell(2).GetString(),
-                            Email = row.Cell(3).GetString(),
-                            BrokerSever = row.Cell(4).GetString(),
-                            IDMT4 = (long)row.Cell(5).GetDouble(),
-                            PassView = row.Cell(6).GetString(),
-                            PassWeb = row.Cell(7).GetString(),
-                            Banlance = (decimal)row.Cell(8).GetDouble(),
-                            Bot = row.Cell(9).GetString(),
-                            Ev = (long)row.Cell(10).GetDouble(),
-                            Ref = (long)row.Cell(10).GetDouble(),
-                            InCome = (long)row.Cell(11).GetDouble(),
-                            OutCome = (long)row.Cell(12).GetDouble(),
-                            Description = row.Cell(13).GetString(),
+                            TransactionDate = DateTime.ParseExact(row.Cell(1).GetString(), "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),  // Cột 1: Day (ngày giao dịch)
+                            Name = row.Cell(2).GetString(),               // Cột 2: Name
+                            Email = row.Cell(3).GetString(),              // Cột 3: Gmail
+                            BrokerSever = row.Cell(4).GetString(),        // Cột 4: Broker Server
+                            IDMT4 = (long)row.Cell(5).GetDouble(),        // Cột 5: ID MT4
+                            PassView = row.Cell(6).GetString(),           // Cột 6: Pass View
+                            PassWeb = row.Cell(7).GetString(),            // Cột 7: Pass Web
+                            Banlance = (decimal)row.Cell(8).GetDouble(),  // Cột 8: Vốn (USD)
+                            Bot = row.Cell(9).GetString(),                // Cột 9: BOT
+                            Ev = (long)row.Cell(10).GetDouble(),          // Cột 10: EV
+                            Ref = (long)row.Cell(11).GetDouble(),         // Cột 11: Ref
                         });
-                    } catch (Exception) {
+                    } catch (Exception ex) {
+                        Console.WriteLine(ex.Message);
                         continue;
                     }
                 }
@@ -83,15 +80,10 @@ public class ImportTransactionHandlers(IServiceProvider serviceProvider) : BaseH
             }
         }
 
-        //var insertData = models.Select(o => new Transaction {
-        //    Code = o.Code,
-        //    Name = o.Name,
-        //    Phone = o.Phone,
-        //    Email = o.Email,
-        //}).Select(o => o.ToEntity(request.MerchantId)).ToList();
         //await this.db.Brands.AddRangeAsync(insertData, cancellationToken);
         //await this.db.SaveChangesAsync(cancellationToken);
 
         return null;
     }
+
 }

@@ -43,6 +43,7 @@ internal class SaveTransactionHandler(IServiceProvider serviceProvider) : BaseHa
             TransactionAt = DateTimeOffset.Now,
             TransactionType = model.TransactionType,
             UserBotId = model.UserBotId,
+            MerchantId = merchantId,
         };
 
         await db.Transactions.AddAsync(transaction, cancellationToken);
