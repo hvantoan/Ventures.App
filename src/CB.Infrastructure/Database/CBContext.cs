@@ -18,12 +18,16 @@ namespace CB.Infrastructure.Database {
         public DbSet<UserBot> UserBots => Set<UserBot>();
 
         public DbSet<Bot> Bots => Set<Bot>();
-        public DbSet<BotReport> BotReports => Set<BotReport>();
+
         public DbSet<Transaction> Transactions => Set<Transaction>();
 
         public DbSet<Pricing> Pricings => Set<Pricing>();
         public DbSet<Feature> Features => Set<Feature>();
         public DbSet<Contact> Contacts => Set<Contact>();
+
+        // Report
+        public DbSet<BotReport> BotReports => Set<BotReport>();
+        public DbSet<ServerReport> ServerReports => Set<ServerReport>();
 
         public CBContext() {
         }

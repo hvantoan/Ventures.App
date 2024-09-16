@@ -5,8 +5,8 @@ namespace CB.Application.Models;
 
 public class TransactionDto {
     public string Id { get; set; } = string.Empty;
-    public string UserBotId { get; set; } = null!;
-    public string MerchantId { get; set; } = null!;
+    public string UserBotId { get; set; } = string.Empty;
+    public string MerchantId { get; set; } = string.Empty;
     public decimal Amount { get; set; }
     public ETransactionType TransactionType { get; set; }
     public DateTimeOffset TransactionAt { get; set; }

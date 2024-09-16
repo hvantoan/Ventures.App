@@ -15,7 +15,7 @@ internal class CalculateBalanceHandler(IServiceProvider serviceProvider) : BaseH
         CbException.ThrowIfNull(userBot, Messages.UserBot_NotFound);
         userBot.Balance = await this.db.Transactions
                .Where(o => o.UserBotId == request.Id)
-               .SumAsync(o => o.TransactionType == Domain.Enums.ETransactionType.Outcome ? -o.Amount : o.Amount, cancellationToken);
+               .SumAsync(o => o.TransactionType == Domain.Enums.ETransactionType.Withdrawal ? -o.Amount : o.Amount, cancellationToken);
 
         await this.db.SaveChangesAsync(cancellationToken);
     }
