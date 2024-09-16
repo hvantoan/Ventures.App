@@ -8,8 +8,8 @@ public enum ETransactionType {
     Profit = 1,
 
     [Description("Nộp")]
-    Income = 2,
+    Deposit = 2,
 
     [Description("Rút")]
-    Outcome = 3,
+    Withdrawal = 3,
 }

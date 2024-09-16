@@ -9,10 +9,18 @@ namespace CB.Api.Controllers;
 public class ReportController(IServiceProvider serviceProvider) : BaseController(serviceProvider) {
 
     [HttpPost, Route("bot")]
-    public async Task<Result> BotReport([FromQuery] BotReportQuery param) {
-        param.MerchantId = merchantId;
-        param.UserId = userId;
-        var reports = await this.mediator.Send(param);
+    public async Task<Result> BotReport(BotReportQuery request) {
+        request.MerchantId = merchantId;
+        request.UserId = userId;
+        var reports = await this.mediator.Send(request);
+        return Result.Ok(reports);
+    }
+
+    [HttpPost, Route("server")]
+    public async Task<Result> ServerReport(ServerReportQuery request) {
+        request.MerchantId = merchantId;
+        request.UserId = userId;
+        var reports = await this.mediator.Send(request);
         return Result.Ok(reports);
     }
 }

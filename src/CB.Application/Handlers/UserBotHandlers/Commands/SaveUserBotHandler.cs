@@ -51,7 +51,7 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
                 MerchantId = merchantId,
                 TransactionAt = DateTimeOffset.Now,
                 Amount = userBot.Balance,
-                TransactionType = ETransactionType.Income,
+                TransactionType = ETransactionType.Deposit,
             });
         }
 

@@ -23,12 +23,16 @@ namespace CB.Infrastructure {
         public static IServiceCollection AddJobs(this IServiceCollection services, IConfiguration configuration) {
             services.AddScheduler();
             services.AddScoped<BotReportJob>();
+            services.AddScoped<ServerReportJob>();
+            services.AddScoped<CalculatorTransactionJob>();
             return services;
         }
 
         public static IServiceProvider UseJobs(this IServiceProvider services) {
             services.UseScheduler(scheduler => {
                 scheduler.Schedule<BotReportJob>().Monthly().RunOnceAtStart();
+                scheduler.Schedule<ServerReportJob>().Monthly().RunOnceAtStart();
+                scheduler.Schedule<CalculatorTransactionJob>().Monthly().RunOnceAtStart();
             }).OnError(ex => Console.WriteLine("Scheduler ERROR {0}", ex));
             return services;
         }
