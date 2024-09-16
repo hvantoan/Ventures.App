@@ -66,11 +66,10 @@ public class SaveRoleHandler(IServiceProvider serviceProvider) : BaseHandler<Sav
     }
 
     private async Task<string> Update(string merchantId, string userId, RoleDto model, CancellationToken cancellationToken) {
-        var existed = await db.Roles.AsNoTracking()
-            .AnyAsync(o => o.MerchantId == merchantId && o.Code == model.Code && o.Id != model.Id && !o.IsDelete, cancellationToken);
+        var existed = await db.Roles.AnyAsync(o => o.MerchantId == merchantId && o.Code == model.Code && o.Id != model.Id && !o.IsDelete, cancellationToken);
         CbException.ThrowIf(existed, Messages.Role_Existed);
 
-        var role = await db.Roles.Include(o => o.RolePermissions)
+        var role = await db.Roles.Include(o => o.RolePermissions).AsTracking()
             .FirstOrDefaultAsync(o => o.MerchantId == merchantId && o.Id == model.Id && !o.IsDelete, cancellationToken);
         CbException.ThrowIfNull(role, Messages.Role_NotFound);
 
