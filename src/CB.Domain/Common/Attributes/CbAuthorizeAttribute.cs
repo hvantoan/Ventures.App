@@ -22,7 +22,8 @@ public static class CbClaim {
         public const string Setting_User = "BO.User";
         public const string Setting_User_Reset = "BO.User.Reset";
         public const string Setting_Role = "BO.Role";
-        public const string Transaction = "BO.Transaction";
+        public const string Service_Transaction = "BO.Transaction";
+        public const string Service_Server = "BO.Server";
         public const string Category_Bot = "BO.Bot";
     }
 
@@ -31,5 +32,6 @@ public static class CbClaim {
         public const string Setting = "BO.Setting";
         public const string General = "BO.General";
         public const string Category = "BO.Category";
+        public const string Service = "BO.Service";
     }
 }

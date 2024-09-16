@@ -14,9 +14,6 @@ public class ImportTransactionModel : ImportModel {
     public string Bot { get; set; } = null!;
     public long Ev { get; set; }
     public long Ref { get; set; }
-    public decimal? InCome { get; set; }
-    public decimal? OutCome { get; set; }
-    public string? Description { get; set; }
 }
 
 public class TransactionValidator : AbstractValidator<ImportTransactionModel> {

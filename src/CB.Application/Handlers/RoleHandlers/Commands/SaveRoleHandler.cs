@@ -5,12 +5,8 @@ namespace CB.Application.Handlers.RoleHandlers.Commands;
 
 public class SaveRoleCommand : ModelRequest<RoleDto, string> { }
 
-public class SaveRoleHandler : BaseHandler<SaveRoleCommand, string> {
-    private readonly IMediator mediator;
-
-    public SaveRoleHandler(IServiceProvider serviceProvider) : base(serviceProvider) {
-        mediator = serviceProvider.GetRequiredService<IMediator>();
-    }
+public class SaveRoleHandler(IServiceProvider serviceProvider) : BaseHandler<SaveRoleCommand, string>(serviceProvider) {
+    private readonly IMediator mediator = serviceProvider.GetRequiredService<IMediator>();
 
     public override async Task<string> Handle(SaveRoleCommand request, CancellationToken cancellationToken) {
         var merchantId = request.MerchantId;

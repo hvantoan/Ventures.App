@@ -3,6 +3,7 @@ using System;
 using CB.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CB.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(CBContext))]
-    partial class CBContextModelSnapshot : ModelSnapshot
+    [Migration("20240916031557_Add_Report_Bot")]
+    partial class Add_Report_Bot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -404,49 +407,13 @@ namespace CB.Infrastructure.Database.Migrations
                         },
                         new
                         {
-                            Id = "b47ccc68c29e4990bb3a230620ce4e6e",
-                            ClaimName = "BO.Service",
-                            DisplayName = "Dịch vụ",
-                            IsActive = true,
-                            IsClaim = false,
-                            IsDefault = false,
-                            OrderIndex = 3,
-                            ParentId = "ec0f270b424249438540a16e9157c0c8",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = "b47ccc68c29e4990aa3a230620dd4e7e",
-                            ClaimName = "BO.Transaction",
-                            DisplayName = "Danh sách giao dịch",
-                            IsActive = true,
-                            IsClaim = true,
-                            IsDefault = false,
-                            OrderIndex = 4,
-                            ParentId = "b47ccc68c29e4990bb3a230620ce4e6e",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = "b47ccc68c29e4990bb3a230620dd4e7e",
-                            ClaimName = "BO.Server",
-                            DisplayName = "",
-                            IsActive = true,
-                            IsClaim = true,
-                            IsDefault = false,
-                            OrderIndex = 5,
-                            ParentId = "b47ccc68c29e4990bb3a230620ce4e6e",
-                            Type = 1
-                        },
-                        new
-                        {
                             Id = "b47ccc68c29e4990bb3a230620ce4e7e",
                             ClaimName = "BO.Category",
                             DisplayName = "Danh mục",
                             IsActive = true,
                             IsClaim = false,
                             IsDefault = false,
-                            OrderIndex = 6,
+                            OrderIndex = 3,
                             ParentId = "ec0f270b424249438540a16e9157c0c8",
                             Type = 1
                         },
@@ -458,7 +425,7 @@ namespace CB.Infrastructure.Database.Migrations
                             IsActive = true,
                             IsClaim = true,
                             IsDefault = false,
-                            OrderIndex = 7,
+                            OrderIndex = 4,
                             ParentId = "b47ccc68c29e4990bb3a230620ce4e7e",
                             Type = 1
                         },
@@ -470,7 +437,7 @@ namespace CB.Infrastructure.Database.Migrations
                             IsActive = true,
                             IsClaim = false,
                             IsDefault = false,
-                            OrderIndex = 8,
+                            OrderIndex = 5,
                             ParentId = "ec0f270b424249438540a16e9157c0c8",
                             Type = 1
                         },
@@ -482,7 +449,7 @@ namespace CB.Infrastructure.Database.Migrations
                             IsActive = true,
                             IsClaim = false,
                             IsDefault = false,
-                            OrderIndex = 9,
+                            OrderIndex = 6,
                             ParentId = "dc1c2ce584d74428b4e5241a5502787d",
                             Type = 1
                         },
@@ -494,7 +461,7 @@ namespace CB.Infrastructure.Database.Migrations
                             IsActive = true,
                             IsClaim = true,
                             IsDefault = false,
-                            OrderIndex = 10,
+                            OrderIndex = 7,
                             ParentId = "b35cc06a567e420f8d0bda3426091048",
                             Type = 1
                         },
@@ -506,7 +473,7 @@ namespace CB.Infrastructure.Database.Migrations
                             IsActive = true,
                             IsClaim = true,
                             IsDefault = false,
-                            OrderIndex = 11,
+                            OrderIndex = 8,
                             ParentId = "dc1c2ce584d74428b4e5241a5502787d",
                             Type = 1
                         },
@@ -518,7 +485,7 @@ namespace CB.Infrastructure.Database.Migrations
                             IsActive = true,
                             IsClaim = true,
                             IsDefault = false,
-                            OrderIndex = 12,
+                            OrderIndex = 9,
                             ParentId = "296285809bac481890a454ea8aed6af4",
                             Type = 1
                         },
@@ -530,7 +497,7 @@ namespace CB.Infrastructure.Database.Migrations
                             IsActive = true,
                             IsClaim = true,
                             IsDefault = false,
-                            OrderIndex = 13,
+                            OrderIndex = 10,
                             ParentId = "dc1c2ce584d74428b4e5241a5502787d",
                             Type = 1
                         });

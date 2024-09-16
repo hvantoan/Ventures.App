@@ -21,5 +21,6 @@ internal class BotConfig : IEntityTypeConfiguration<Bot> {
         //fk
 
         builder.HasMany(o => o.UserBots).WithOne(o => o.Bot).HasForeignKey(o => o.BotId);
+        builder.HasMany(o => o.BotReports).WithOne(o => o.Bot).HasForeignKey(o => o.BotId);
     }
 }

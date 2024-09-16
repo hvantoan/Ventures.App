@@ -13,4 +13,5 @@ public class Bot : IEntity {
     public DateTimeOffset CreatedAt { get; set; }
 
     public virtual ICollection<UserBot>? UserBots { get; set; }
+    public virtual ICollection<BotReport>? BotReports { get; set; }
 }

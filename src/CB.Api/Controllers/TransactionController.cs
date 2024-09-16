@@ -2,11 +2,12 @@
 using CB.Application.Handlers.TransactionHandlers.Queries;
 using CB.Application.Models;
 using CB.Domain.Common;
+using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CB.Api.Controllers;
 
-[ApiController, Route("api/transactions")]
+[ApiController, CbAuthorize(CbClaim.Web.Service_Transaction), Route("api/transactions")]
 public class TransactionController(IServiceProvider serviceProvider) : BaseController(serviceProvider) {
 
     [HttpPost, Route("save")]
