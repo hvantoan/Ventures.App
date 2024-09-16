@@ -26,7 +26,7 @@ namespace CB.Infrastructure {
             return services;
         }
 
-        internal static IServiceProvider UseJobs(this IServiceProvider services) {
+        public static IServiceProvider UseJobs(this IServiceProvider services) {
             services.UseScheduler(scheduler => {
                 scheduler.Schedule<BotReportJob>().Monthly().RunOnceAtStart();
             }).OnError(ex => Console.WriteLine("Scheduler ERROR {0}", ex));

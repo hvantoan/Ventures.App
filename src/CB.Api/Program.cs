@@ -25,6 +25,7 @@ namespace CB.Api {
             builder.Services.AddMediatR();
             builder.Services.AddRedis(builder.Configuration);
             builder.Services.AddResources();
+            builder.Services.AddJobs(builder.Configuration);
 
             // Infastructure
             builder.Services.AddInternalService();
@@ -41,7 +42,9 @@ namespace CB.Api {
 
             app.UseMiddlewares();
             app.MapControllers();
+
             app.Services.AutoMigration();
+            app.Services.UseJobs();
 
             app.Run();
         }

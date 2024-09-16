@@ -22,7 +22,6 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
         // fk
         builder.HasMany(o => o.RolePermissions).WithOne(o => o.Permission).HasForeignKey(o => o.PermissionId);
 
-
         // seed data
         var index = 0;
 
@@ -55,6 +54,38 @@ internal class PermissionConfig : IEntityTypeConfiguration<Permission> {
             ClaimName = CbClaim.Web.Contact,
             DisplayName = "Liên hệ",
             IsDefault = true,
+            IsActive = true,
+            IsClaim = true,
+            OrderIndex = index++,
+            Type = EPermission.Web,
+        });
+
+        builder.HasData(new Permission {
+            Id = "b47ccc68c29e4990bb3a230620ce4e6e",
+            ParentId = "ec0f270b424249438540a16e9157c0c8",
+            ClaimName = CbClaim.NoClaim.Service,
+            DisplayName = "Dịch vụ",
+            IsDefault = false,
+            IsActive = true,
+            IsClaim = false,
+            OrderIndex = index++,
+            Type = EPermission.Web,
+        }, new Permission {
+            Id = "b47ccc68c29e4990aa3a230620dd4e7e",
+            ParentId = "b47ccc68c29e4990bb3a230620ce4e6e",
+            ClaimName = CbClaim.Web.Service_Transaction,
+            DisplayName = "Danh sách giao dịch",
+            IsDefault = false,
+            IsActive = true,
+            IsClaim = true,
+            OrderIndex = index++,
+            Type = EPermission.Web,
+        }, new Permission {
+            Id = "b47ccc68c29e4990bb3a230620dd4e7e",
+            ParentId = "b47ccc68c29e4990bb3a230620ce4e6e",
+            ClaimName = CbClaim.Web.Service_Server,
+            DisplayName = "",
+            IsDefault = false,
             IsActive = true,
             IsClaim = true,
             OrderIndex = index++,
