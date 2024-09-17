@@ -20,6 +20,8 @@ internal class ServerReportHandler(IServiceProvider serviceProvider) : BaseHandl
 
             var userBotIds = transactions.Select(o => o.UserBotId).Distinct().ToList();
             var userBots = await this.db.UserBots.Where(o => userBotIds.Contains(o.Id)).ToDictionaryAsync(k => k.Id, cancellationToken);
+            var botIds = userBots.Values.Select(o => o.BotId).Distinct().ToList();
+            var bots = await this.db.Bots.Where(o => botIds.Contains(o.Id)).ToDictionaryAsync(k => k.Id, cancellationToken);
 
             var reports = transactions.GroupBy(o => new { o.MerchantId, o.TransactionAt.Year, o.TransactionAt.Month, o.UserBotId }).Select(o => {
                 var beforeBalance = o.OrderBy(t => t.TransactionAt).First().BeforeBalance;
@@ -31,6 +33,11 @@ internal class ServerReportHandler(IServiceProvider serviceProvider) : BaseHandl
                 var beforeAsset = affterBalance + profit;
                 var withdrawal = o.Where(o => o.TransactionType == ETransactionType.Withdrawal).Sum(o => o.Amount);
                 var affterAsset = beforeAsset - withdrawal;
+
+                var userBot = userBots.GetValueOrDefault(o.Key.UserBotId);
+                var bot = bots.GetValueOrDefault(userBot!.BotId);
+                userBot.Bot = bot;
+
                 return new ServerReport {
                     Id = NGuidHelper.New(),
                     UserBotId = o.Key.UserBotId,
@@ -46,13 +53,12 @@ internal class ServerReportHandler(IServiceProvider serviceProvider) : BaseHandl
                     Profit = profit,
                     ProfitPercent = affterBalance == 0 ? 0 : profit / affterBalance,
                     ProfitActual = profit * 0.3m,
-
                     BeforeAsset = beforeAsset,
                     Withdrawal = o.Where(o => o.TransactionType == ETransactionType.Withdrawal).Sum(o => o.Amount),
                     AffterAsset = affterAsset,
 
                     Commission = 30,
-                    UserBot = userBots.GetValueOrDefault(o.Key.UserBotId)
+                    UserBot = userBot,
                 };
             }).ToList();
             return reports;
