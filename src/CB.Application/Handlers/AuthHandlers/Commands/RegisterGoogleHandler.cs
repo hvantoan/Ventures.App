@@ -5,6 +5,9 @@ using CB.Domain.Common.Hashers;
 using CB.Domain.Constants;
 using CB.Domain.Enums;
 using CB.Domain.Extentions;
+using CB.Domain.ExternalServices.Interfaces;
+using CB.Domain.ExternalServices.Models;
+using CB.Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,7 +22,8 @@ public class RegisterGoogleCommand : IRequest<LoginResult> {
 }
 
 public class RegisterGoogleHandler(IServiceProvider serviceProvider) : BaseHandler<RegisterGoogleCommand, LoginResult>(serviceProvider) {
-
+    private readonly IRedisService redisCacheService = serviceProvider.GetRequiredService<IRedisService>();
+    private readonly IImageService imageService = serviceProvider.GetRequiredService<IImageService>();
     public override async Task<LoginResult> Handle(RegisterGoogleCommand request, CancellationToken cancellationToken) {
         var merchant = await this.db.Merchants.FirstOrDefaultAsync(o => o.Code == request.MerchantCode, cancellationToken);
         CbException.ThrowIfNull(merchant, Messages.Merchant_NotFound);
@@ -50,6 +54,8 @@ public class RegisterGoogleHandler(IServiceProvider serviceProvider) : BaseHandl
                 SearchName = StringHelper.UnsignedUnicode(request.Name),
                 IsActive = true,
                 Provider = EProvider.Google,
+                Avatar = request.Image,
+                RoleId = roleDefault.Id,
             };
             this.db.Users.Add(user);
             await this.db.SaveChangesAsync(cancellationToken);
@@ -65,21 +71,43 @@ public class RegisterGoogleHandler(IServiceProvider serviceProvider) : BaseHandl
         CbException.ThrowIfFalse(userPermissions.Exists(o => o.IsEnable), Messages.User_NoPermission);
 
         var claims = new List<Claim>() {
+            new(Constants.TokenMerchantId, merchant.Id),
             new(Constants.TokenUserId, user.Id.ToString()),
         };
 
+
         if (user.IsAdmin) claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+
+        var session = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        string source = EPermission.Web.ToString();
+
+        claims.Add(new Claim(Constants.TokenSource, source));
+        claims.Add(new Claim(Constants.TokenSession, session.ToString()));
+
+        user.LastSession = session;
+        await this.db.SaveChangesAsync(cancellationToken);
 
         var permissionClaims = GetClaimPermissions(userPermissions);
         claims.AddRange(permissionClaims);
-        var expiredAt = GetTokenExpiredAt();
 
+        var expiredAt = this.GetTokenExpiredAt();
+        var expiredTime = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds();
+        var ttlKey = TimeSpan.FromMilliseconds(expiredTime - session);
+
+        string cacheKey = RedisKey.GetSessionKey(source, user.Id);
+        await this.redisCacheService.SetAsync(cacheKey, session, ttlKey);
+
+        var avatars = await imageService.List(merchant.Id, EItemImage.UserAvatar, user.Id);
         return new() {
             RefreshToken = GenerateRefreshToken(claims),
             Token = GenerateToken(claims, expiredAt),
             ExpiredTime = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds(),
             Username = user.Username,
             Name = user.Name,
+            MerchantCode = merchant.Code,
+            MerchantName = merchant.Name,
+            Avatar = user.Avatar ?? ImageDto.FromEntity(avatars.FirstOrDefault(), url)?.Image,
+            Session = session,
         };
     }
 

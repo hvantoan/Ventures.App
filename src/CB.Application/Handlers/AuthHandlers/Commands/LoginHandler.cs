@@ -6,6 +6,8 @@ using CB.Domain.Constants;
 using CB.Domain.Enums;
 using CB.Domain.Extentions;
 using CB.Domain.ExternalServices.Interfaces;
+using CB.Domain.ExternalServices.Models;
+using CB.Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,12 +27,14 @@ public class LoginResult {
     public string MerchantName { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
+    public string? Avatar { get; set; } = string.Empty;
     public long ExpiredTime { get; set; }
     public long Session { get; set; }
 }
 
 public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginCommand, LoginResult>(serviceProvider) {
     private readonly IRedisService redisCacheService = serviceProvider.GetRequiredService<IRedisService>();
+    private readonly IImageService imageService = serviceProvider.GetRequiredService<IImageService>();
 
     public override async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken) {
         request.Username = request.Username.ToLower().Trim();
@@ -84,6 +88,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginC
         string cacheKey = RedisKey.GetSessionKey(source, user.Id);
         await this.redisCacheService.SetAsync(cacheKey, session, ttlKey);
 
+        var avatars = await imageService.List(merchant.Id, EItemImage.UserAvatar, user.Id);
         return new() {
             RefreshToken = this.GenerateRefreshToken(claims),
             Token = this.GenerateToken(claims, expiredAt),
@@ -92,6 +97,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginC
             MerchantName = merchant.Name,
             Username = user.Username,
             Name = user.Name,
+            Avatar = ImageDto.FromEntity(avatars.FirstOrDefault(), url)?.Image,
             Session = session,
         };
     }
