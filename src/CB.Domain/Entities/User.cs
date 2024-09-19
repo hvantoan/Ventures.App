@@ -15,7 +15,6 @@ public partial class User : IEntity {
     public string Username { get; set; } = null!;
 
     public string Password { get; set; } = null!;
-    public EProvider Provider { get; set; }
 
     [Description("Tên người dùng")]
     public string Name { get; set; } = null!;
@@ -41,6 +40,9 @@ public partial class User : IEntity {
 
     [Description("Trạng thái")]
     public bool IsActive { get; set; }
+
+    public EProvider Provider { get; set; }
+    public string? ParentId { get; set; }
 
     public bool IsAdmin { get; set; }
     public bool IsSystem { get; set; }

@@ -27,7 +27,6 @@ public class RegisterAdminUser {
     public string? Address { get; set; }
 }
 
-
 public class RegisterMerchantHandler(IServiceProvider serviceProvider) : BaseHandler<RegisterMerchantCommand>(serviceProvider) {
 
     public override async Task Handle(RegisterMerchantCommand request, CancellationToken cancellationToken) {
@@ -45,6 +44,8 @@ public class RegisterMerchantHandler(IServiceProvider serviceProvider) : BaseHan
 
         var merchant = await InsertMerchant(request.Merchant!, cancellationToken);
         await InsertAdminUser(merchant, request.User!, cancellationToken);
+
+        await InsertRole(merchant, cancellationToken);
 
         await db.SaveChangesAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
@@ -82,5 +83,18 @@ public class RegisterMerchantHandler(IServiceProvider serviceProvider) : BaseHan
             IsAdmin = true,
         };
         await db.Users.AddAsync(user, cancellationToken);
+    }
+
+    private async Task InsertRole(Merchant merchant, CancellationToken cancellation) {
+        var role = new Role {
+            Id = NGuidHelper.New(),
+            MerchantId = merchant.Id,
+            Code = "RO_NguoiDung",
+            Name = "Người dùng",
+            IsClient = true,
+            CreatedDate = DateTimeOffset.UtcNow,
+            SearchName = StringHelper.UnsignedUnicode("Người dùng"),
+        };
+        await db.Roles.AddAsync(role, cancellation);
     }
 }

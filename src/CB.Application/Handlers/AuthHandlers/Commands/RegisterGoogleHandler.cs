@@ -12,6 +12,7 @@ namespace CB.Application.Handlers.AuthHandlers.Commands;
 
 public class RegisterGoogleCommand : IRequest<LoginResult> {
     public string Id { get; set; } = string.Empty;
+    public string MerchantCode { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
@@ -20,13 +21,33 @@ public class RegisterGoogleCommand : IRequest<LoginResult> {
 public class RegisterGoogleHandler(IServiceProvider serviceProvider) : BaseHandler<RegisterGoogleCommand, LoginResult>(serviceProvider) {
 
     public override async Task<LoginResult> Handle(RegisterGoogleCommand request, CancellationToken cancellationToken) {
+        var merchant = await this.db.Merchants.FirstOrDefaultAsync(o => o.Code == request.MerchantCode, cancellationToken);
+        CbException.ThrowIfNull(merchant, Messages.Merchant_NotFound);
+
+        var roleDefault = await this.db.Roles.FirstOrDefaultAsync(o => o.MerchantId == merchant.Id && o.IsClient, cancellationToken);
+        if (roleDefault == null) {
+            roleDefault = new Role() {
+                Id = NGuidHelper.New(),
+                Code = "RO_NguoiDung",
+                Name = "Người dùng",
+                CreatedDate = DateTimeOffset.Now,
+                IsClient = true,
+                MerchantId = merchant.Id,
+                SearchName = "nguoi dung",
+            };
+            await this.db.Roles.AddAsync(roleDefault, cancellationToken);
+            await this.db.SaveChangesAsync(cancellationToken);
+        }
+
         var user = await db.Users.FirstOrDefaultAsync(o => o.Username == request.Email, cancellationToken);
         if (user == null) {
             user ??= new User {
                 Id = NGuidHelper.New(),
                 Username = request.Email,
+                MerchantId = merchant.Id,
                 Password = PasswordHasher.Hash(""),
                 Name = request.Name,
+                SearchName = StringHelper.UnsignedUnicode(request.Name),
                 IsActive = true,
                 Provider = EProvider.Google,
             };

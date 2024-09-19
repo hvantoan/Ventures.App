@@ -3,6 +3,7 @@ using System;
 using CB.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CB.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(CBContext))]
-    partial class CBContextModelSnapshot : ModelSnapshot
+    [Migration("20240917154953_Add_Parent_User")]
+    partial class Add_Parent_User
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -570,9 +573,6 @@ namespace CB.Infrastructure.Database.Migrations
 
                     b.Property<long>("CreatedDate")
                         .HasColumnType("bigint");
-
-                    b.Property<bool>("IsClient")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("boolean");
