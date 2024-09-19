@@ -47,8 +47,8 @@ public partial class User : IEntity {
     public bool IsAdmin { get; set; }
     public bool IsSystem { get; set; }
     public bool IsDelete { get; set; }
-
     public long LastSession { get; set; }
+    public string? Avatar { get; set; }
 
     public virtual Role? Role { get; set; }
     public virtual ICollection<Contact>? Contacts { get; set; }
