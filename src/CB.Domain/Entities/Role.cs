@@ -14,8 +14,9 @@ public class Role : IEntity {
     public string Name { get; set; } = null!;
 
     public string SearchName { get; set; } = null!;
-    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 
+    public bool IsClient { get; set; } = false;
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
     public bool IsDelete { get; set; }
 
     public virtual ICollection<User>? Users { get; set; }
