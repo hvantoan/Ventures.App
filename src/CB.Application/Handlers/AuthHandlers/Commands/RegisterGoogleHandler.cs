@@ -47,6 +47,7 @@ public class RegisterGoogleHandler(IServiceProvider serviceProvider) : BaseHandl
                 MerchantId = merchant.Id,
                 Password = PasswordHasher.Hash(""),
                 Name = request.Name,
+                SearchName = StringHelper.UnsignedUnicode(request.Name),
                 IsActive = true,
                 Provider = EProvider.Google,
             };
