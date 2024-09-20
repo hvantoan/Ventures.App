@@ -17,6 +17,7 @@ public class UserDto {
 
     public string Name { get; set; } = string.Empty;
     public string? Phone { get; set; }
+    public string? Email { get; set; }
     public string? IdentityCard { get; set; }
     public Domain.Common.Resource.Unit? Province { get; set; }
     public Domain.Common.Resource.Unit? District { get; set; }
@@ -42,6 +43,7 @@ public class UserDto {
             Username = entity.Username,
             Name = entity.Name,
             Phone = entity.Phone,
+            Email = entity.Email,
             IdentityCard = entity.IdentityCard,
             Province = au.GetValue(entity.Province),
             District = au.GetValue(entity.District),

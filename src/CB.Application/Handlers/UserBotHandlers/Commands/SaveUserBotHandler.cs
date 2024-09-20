@@ -31,7 +31,7 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
     private async Task<string> Create(string merchantId, string userId, UserBotDto model, CancellationToken cancellationToken) {
         var userBot = new UserBot() {
             Id = NGuidHelper.New(model.Id),
-            UserId = userId,
+            UserId = model.UserId,
             Balance = model.Balance,
             BotId = model.Bot!.Id,
             MerchantId = merchantId,
