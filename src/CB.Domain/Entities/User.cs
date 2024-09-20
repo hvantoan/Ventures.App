@@ -26,6 +26,9 @@ public partial class User : IEntity {
     [Description("Số điện thoại")]
     public string? Phone { get; set; }
 
+    [Description("Email")]
+    public string? Email { get; set; }
+
     [Description("Tỉnh/Thành phố")]
     public string? Province { get; set; }
 

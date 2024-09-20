@@ -20,8 +20,8 @@ internal class ServerReportHandler(IServiceProvider serviceProvider) : BaseHandl
 
             var userBotIds = transactions.Select(o => o.UserBotId).Distinct().ToList();
             var userBots = await this.db.UserBots.Where(o => userBotIds.Contains(o.Id)).ToDictionaryAsync(k => k.Id, cancellationToken);
-            var botIds = userBots.Values.Select(o => o.BotId).Distinct().ToList();
-            var bots = await this.db.Bots.Where(o => botIds.Contains(o.Id)).ToDictionaryAsync(k => k.Id, cancellationToken);
+            var userIds = userBots.Values.Select(o => o.UserId).Distinct().ToList();
+            var users = await this.db.Users.Where(o => userIds.Contains(o.Id)).ToDictionaryAsync(k => k.Id, cancellationToken);
 
             var reports = transactions.GroupBy(o => new { o.MerchantId, o.TransactionAt.Year, o.TransactionAt.Month, o.UserBotId }).Select(o => {
                 var beforeBalance = o.OrderBy(t => t.TransactionAt).First().BeforeBalance;
@@ -35,8 +35,8 @@ internal class ServerReportHandler(IServiceProvider serviceProvider) : BaseHandl
                 var affterAsset = beforeAsset - withdrawal;
 
                 var userBot = userBots.GetValueOrDefault(o.Key.UserBotId);
-                var bot = bots.GetValueOrDefault(userBot!.BotId);
-                userBot.Bot = bot;
+                var user = users.GetValueOrDefault(userBot!.UserId);
+                userBot.User = user;
 
                 return new ServerReport {
                     Id = NGuidHelper.New(),
