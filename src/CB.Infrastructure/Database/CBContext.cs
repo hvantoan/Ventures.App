@@ -40,7 +40,7 @@ namespace CB.Infrastructure.Database {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Server=hvantoan.io.vn;Port=5432;Database=ventures;Pooling=true;");
+                optionsBuilder.UseNpgsql("User ID=ventures;Password=123456789x@X;Server=hvantoan.io.vn;Port=5432;Database=ventures;Pooling=true;");
             }
         }
 
