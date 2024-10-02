@@ -23,6 +23,8 @@ namespace CB.Infrastructure.Database {
 
         public DbSet<Landing> Landings => Set<Landing>();
 
+        public DbSet<Pricing> Pricings => Set<Pricing>();
+
         // Report
 
         public DbSet<Contact> Contacts => Set<Contact>();
