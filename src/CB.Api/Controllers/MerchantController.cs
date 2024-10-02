@@ -17,7 +17,7 @@ public class MerchantController(IServiceProvider serviceProvider) : BaseControll
         return Result.Ok();
     }
 
-    [HttpGet, Route("get")]
+    [HttpGet, CbAuthorize(CbClaim.Web.Setting_General_Api), Route("get")]
     public async Task<Result> Get() {
         var data = await this.mediator.Send(new GetMerchantQuery {
             MerchantId = this.merchantId,
