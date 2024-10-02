@@ -21,11 +21,11 @@ namespace CB.Infrastructure.Database {
 
         public DbSet<Transaction> Transactions => Set<Transaction>();
 
-        public DbSet<Pricing> Pricings => Set<Pricing>();
-        public DbSet<Feature> Features => Set<Feature>();
-        public DbSet<Contact> Contacts => Set<Contact>();
+        public DbSet<Landing> Landings => Set<Landing>();
 
         // Report
+
+        public DbSet<Contact> Contacts => Set<Contact>();
         public DbSet<BotReport> BotReports => Set<BotReport>();
         public DbSet<ServerReport> ServerReports => Set<ServerReport>();
 

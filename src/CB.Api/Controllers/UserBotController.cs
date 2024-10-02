@@ -2,11 +2,12 @@
 using CB.Application.Handlers.UserBotHandlers.Queries;
 using CB.Application.Models;
 using CB.Domain.Common;
+using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CB.Api.Controllers;
 
-[ApiController, Route("api/servers")]
+[ApiController, CbAuthorize(CbClaim.Web.Service_Server), Route("api/servers")]
 public class UserBotController(IServiceProvider serviceProvider) : BaseController(serviceProvider) {
 
     [HttpPost, Route("save")]
