@@ -3,9 +3,9 @@
 namespace CB.Domain.Entities;
 
 public class BotReport : IEntity {
-    public string Id { get; set; } = null!;
-    public string BotId { get; set; } = null!;
-    public string MerchantId { get; set; } = null!;
+    public required string Id { get; set; }
+    public required string BotId { get; set; }
+    public required string MerchantId { get; set; }
 
     public int Month { get; set; }
     public int Year { get; set; }

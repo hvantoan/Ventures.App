@@ -1,11 +1,12 @@
-﻿namespace CB.Domain.Constants;
+﻿// ReSharper disable InconsistentNaming
+namespace CB.Domain.Constants;
 
 public static class Messages {
     public const string User_NotFound = "Người dùng không tồn tại";
     public const string User_Inactive = "Người dùng đã bị vô hiệu hóa";
     public const string User_IncorrectPassword = "Tài khoản hoặc Mật khẩu không chính xác";
     public const string User_NoPermission = "Người dùng không có quyền truy cập";
-    public const string User_IncorrentOldPassword = "Sai mật khẩu.";
+    public const string User_IncorrectOldPassword = "Sai mật khẩu.";
     public const string User_NotDelete = "Chỉ xóa được người dùng ở trạng thái không cho phép hoạt động.";
     public const string User_Existed = "Người dùng đã tồn tại.";
     public const string User_NotInactive = "Không thể dừng hoạt động với người quản trị.";

@@ -11,10 +11,12 @@ internal class RoleConfig : IEntityTypeConfiguration<Role> {
 
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).HasMaxLength(32);
+        builder.Property(o => o.MerchantId).HasMaxLength(32).IsFixedLength().IsRequired();
 
         builder.Property(o => o.Code).HasMaxLength(50).IsRequired();
         builder.Property(o => o.Name).HasMaxLength(255).IsRequired();
         builder.Property(o => o.SearchName).HasMaxLength(255).IsRequired();
+        builder.Property(o => o.Description).HasMaxLength(2000);
         builder.Property(o => o.CreatedDate).HasConversion(o => o.ToUnixTimeMilliseconds(), o => DateTimeOffset.FromUnixTimeMilliseconds(o));
 
         // fk

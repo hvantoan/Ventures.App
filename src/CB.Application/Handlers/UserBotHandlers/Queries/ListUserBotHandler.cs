@@ -18,7 +18,7 @@ internal class ListUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
             .WhereIf(!string.IsNullOrEmpty(request.SearchText), o =>
                         o.Bot!.SearchName.Contains(request.SearchText!)
                     || (!string.IsNullOrEmpty(o.BrokerServer) && o.BrokerServer.Contains(request.SearchText!))
-                    || o.ID_MT4.ToString().Contains(request.SearchText!) || o.User!.SearchName.Contains(request.SearchText!)
+                    || o.IdMt4.ToString().Contains(request.SearchText!) || o.User!.SearchName.Contains(request.SearchText!)
             );
 
         return new ListUserBot {

@@ -15,6 +15,7 @@ internal class BotConfig : IEntityTypeConfiguration<Bot> {
         builder.Property(o => o.MerchantId).HasMaxLength(32).IsFixedLength();
 
         builder.Property(o => o.Name).HasMaxLength(255);
+        builder.Property(o => o.SearchName).HasMaxLength(255);
         builder.Property(o => o.Description).HasMaxLength(2000);
         builder.Property(o => o.CreatedAt).HasDateConversion().IsRequired();
 

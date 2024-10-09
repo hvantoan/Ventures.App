@@ -41,7 +41,7 @@ public class ServerReportJob(IServiceProvider serviceProvider) : IInvocable {
                 // Balance
                 BeforeBalance = beforeBalance,
                 Deposit = deposit,
-                AffterBalance = affterBalance,
+                AfterBalance = affterBalance,
 
                 Profit = profit,
                 ProfitPercent = affterBalance == 0 ? 0 : profit / affterBalance,
@@ -49,7 +49,7 @@ public class ServerReportJob(IServiceProvider serviceProvider) : IInvocable {
 
                 BeforeAsset = beforeAsset,
                 Withdrawal = o.Where(o => o.TransactionType == ETransactionType.Withdrawal).Sum(o => o.Amount),
-                AffterAsset = affterAsset,
+                AfterAsset = affterAsset,
 
                 Commission = 30
             };

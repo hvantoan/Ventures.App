@@ -2,11 +2,11 @@
 
 namespace CB.Domain.Entities;
 
-public partial class Permission : ICloneable {
+public class Permission : ICloneable {
     public string Id { get; set; } = null!;
     public string? ParentId { get; set; }
-    public string ClaimName { get; set; } = null!;
-    public string DisplayName { get; set; } = null!;
+    public required string ClaimName { get; set; }
+    public required string DisplayName { get; set; }
     public bool IsDefault { get; set; }
     public bool IsActive { get; set; }
     public bool IsClaim { get; set; }

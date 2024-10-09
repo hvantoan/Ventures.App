@@ -19,6 +19,8 @@ public class MerchantConfig : IEntityTypeConfiguration<Merchant> {
         builder.Property(o => o.ApiSecret).HasMaxLength(255);
         builder.Property(o => o.ExpiredDate).HasDateConversion().IsRequired();
         builder.Property(o => o.CreatedDate).HasDateConversion().IsRequired();
+        builder.Property(o => o.Phone).HasMaxLength(255);
+        builder.Property(o => o.Email).HasMaxLength(255);
 
         builder.Property(o => o.Province).HasMaxLength(20);
         builder.Property(o => o.District).HasMaxLength(20);

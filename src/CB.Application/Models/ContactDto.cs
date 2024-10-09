@@ -5,7 +5,7 @@ namespace CB.Application.Models;
 
 public class ContactDto {
     public string Id { get; set; } = string.Empty;
-    public string? UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string? Email { get; set; }
     public string? Phone { get; set; }
@@ -42,11 +42,13 @@ public class ContactDto {
             Id = NGuidHelper.New(Id),
             UserId = UserId,
             Name = Name,
+            SearchName = StringHelper.UnsignedUnicode(Name),
             Email = Email,
             Phone = Phone,
             IdentityCard = IdentityCard,
             Address = Address,
             CreateAt = CreateAt,
+            BankCardId = string.Empty,
             BankCard = BankCard?.ToEntity(UserId),
         };
     }

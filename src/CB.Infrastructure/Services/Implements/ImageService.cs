@@ -52,6 +52,7 @@ public class ImageService(IServiceProvider serviceProvider) : IImageService {
             ItemId = itemId,
             ItemType = itemType,
             Name = model.Name,
+            Image = string.Empty,
         };
         entity.Image = await this.UploadImageAsync(entity, model.Data);
 

@@ -25,23 +25,23 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
         CbException.ThrowIf(!botExits, Messages.UserBot_BotRequired);
         var userExits = await this.db.Users.AnyAsync(o => o.Id == model.User!.Id && !o.IsDelete && !o.IsSystem);
         CbException.ThrowIf(!botExits, Messages.UserBot_UserRequired);
-        CbException.ThrowIf(model.ID_MT4 <= 0, Messages.UserBot_IdMT4Required);
+        CbException.ThrowIf(model.IdMt4 <= 0, Messages.UserBot_IdMT4Required);
     }
 
     private async Task<string> Create(string merchantId, string userId, UserBotDto model, CancellationToken cancellationToken) {
-        var userBot = new UserBot() {
+        var userBot = new UserBot {
             Id = NGuidHelper.New(model.Id),
             UserId = model.UserId,
             Balance = model.Balance,
             BotId = model.Bot!.Id,
             MerchantId = merchantId,
             BrokerServer = model.BrokerServer,
-            EV = model.EV,
-            ID_MT4 = model.ID_MT4,
+            Ev = model.Ev,
+            IdMt4 = model.IdMt4,
             PassView = model.PassView,
             PassWeb = model.PassWeb,
             Ref = model.Ref,
-            CreatAt = DateTimeOffset.Now,
+            CreateAt = DateTimeOffset.Now,
         };
 
         if (userBot.Balance > 0) {
@@ -65,9 +65,9 @@ internal class SaveUserBotHandler(IServiceProvider serviceProvider) : BaseHandle
         var userBot = await db.UserBots.AsTracking().FirstOrDefaultAsync(x => x.Id == model.Id && x.UserId == userId, cancellationToken);
         CbException.ThrowIfNull(userBot, Messages.UserBot_NotFound);
 
-        userBot.ID_MT4 = model.ID_MT4;
+        userBot.IdMt4 = model.IdMt4;
         userBot.BrokerServer = model.BrokerServer;
-        userBot.EV = model.EV;
+        userBot.Ev = model.Ev;
         userBot.Ref = model.Ref;
         userBot.PassView = model.PassView;
         userBot.PassWeb = model.PassWeb;

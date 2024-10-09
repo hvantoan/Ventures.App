@@ -11,9 +11,14 @@ internal class ContactConfig : IEntityTypeConfiguration<Contact> {
         builder.ToTable(nameof(Contact));
 
         builder.HasKey(o => o.Id);
-        builder.Property(o => o.Id).HasMaxLength(32);
+        builder.Property(o => o.Id).HasMaxLength(32).IsFixedLength();
+        builder.Property(o => o.UserId).HasMaxLength(32).IsFixedLength().IsRequired();
+        builder.Property(o => o.BankCardId).HasMaxLength(32).IsFixedLength().IsRequired();
+
+        builder.Property(o => o.IdentityCard).HasMaxLength(255).IsRequired();
 
         builder.Property(o => o.Name).HasMaxLength(255);
+        builder.Property(o => o.SearchName).HasMaxLength(255);
         builder.Property(o => o.Email).HasMaxLength(255);
         builder.Property(o => o.Phone).HasMaxLength(20);
         builder.Property(o => o.Address).HasMaxLength(Int32.MaxValue);

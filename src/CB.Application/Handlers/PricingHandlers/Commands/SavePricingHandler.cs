@@ -1,4 +1,6 @@
-﻿namespace CB.Application.Handlers.PricingHandlers.Commands;
+﻿using CB.Domain.Extentions;
+
+namespace CB.Application.Handlers.PricingHandlers.Commands;
 
 public class SavePricingCommand : ModelRequest<PricingDto, Guid> {
 }
@@ -19,7 +21,7 @@ internal class SavePricingHandler(IServiceProvider serviceProvider) : BaseHandle
                 MonetaryUnit = model.MonetaryUnit,
                 Interval = model.Interval,
                 Features = model.Features.Select(o => new Feature {
-                    Id = Guid.NewGuid(),
+                    Id = NGuidHelper.New(),
                     Content = o
                 }).ToList()
             };
@@ -29,7 +31,7 @@ internal class SavePricingHandler(IServiceProvider serviceProvider) : BaseHandle
             pricing.MonetaryUnit = model.MonetaryUnit;
             pricing.Price = model.Price;
             pricing.Features = model.Features.Select(o => new Feature {
-                Id = Guid.NewGuid(),
+                Id = NGuidHelper.New(),
                 Content = o
             }).ToList();
         }

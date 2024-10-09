@@ -14,10 +14,10 @@ internal class BotReportConfig : IEntityTypeConfiguration<BotReport> {
         builder.Property(o => o.BotId).HasMaxLength(32).IsFixedLength();
         builder.Property(o => o.MerchantId).HasMaxLength(32).IsFixedLength();
 
-        //fk
-
+        // Index
         builder.HasIndex(o => new { o.Month, o.Year, o.BotId }).IsUnique();
 
+        // Foreign Key
         builder.HasOne(o => o.Bot).WithMany(o => o.BotReports).HasForeignKey(o => o.BotId);
     }
 }

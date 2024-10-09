@@ -48,14 +48,14 @@ internal class ServerReportHandler(IServiceProvider serviceProvider) : BaseHandl
                     // Balance
                     BeforeBalance = beforeBalance,
                     Deposit = deposit,
-                    AffterBalance = affterBalance,
+                    AfterBalance = affterBalance,
 
                     Profit = profit,
                     ProfitPercent = affterBalance == 0 ? 0 : profit / affterBalance,
                     ProfitActual = profit * 0.3m,
                     BeforeAsset = beforeAsset,
                     Withdrawal = o.Where(o => o.TransactionType == ETransactionType.Withdrawal).Sum(o => o.Amount),
-                    AffterAsset = affterAsset,
+                    AfterAsset = affterAsset,
 
                     Commission = 30,
                     UserBot = userBot,

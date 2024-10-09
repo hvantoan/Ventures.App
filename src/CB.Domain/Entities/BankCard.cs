@@ -3,17 +3,15 @@
 namespace CB.Domain.Entities;
 
 public partial class BankCard : IEntity {
-    public string Id { get; set; } = null!;
-    public string UserId { get; set; } = null!;
-    public string CardNumber { get; set; } = null!;
+    public required string Id { get; set; }
+    public required string UserId { get; set; }
+    public required string CardNumber { get; set; }
     public string? CardBranch { get; set; }
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
     public string? Cvv { get; set; }
-    public string ExpirationDate { get; set; } = null!;
-
+    public required string ExpirationDate { get; set; }
     public bool IsDelete { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
-
     public virtual User? User { get; set; }
 }
 

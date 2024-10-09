@@ -15,7 +15,7 @@ public class ChangePasswordUserHandler(IServiceProvider serviceProvider) : BaseH
         var user = await db.Users.FirstOrDefaultAsync(o => o.Id == request.UserId
             && o.MerchantId == request.MerchantId && !o.IsDelete && !o.IsSystem, cancellationToken);
         CbException.ThrowIf(user == null, Messages.User_NotFound);
-        CbException.ThrowIf(!PasswordHasher.Verify(request.OldPassword, user.Password), Messages.User_IncorrentOldPassword);
+        CbException.ThrowIf(!PasswordHasher.Verify(request.OldPassword, user.Password), Messages.User_IncorrectOldPassword);
 
         user.Password = PasswordHasher.Hash(request.NewPassword);
 

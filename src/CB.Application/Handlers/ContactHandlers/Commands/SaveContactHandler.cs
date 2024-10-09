@@ -22,7 +22,7 @@ public class SaveContactHandler(IServiceProvider serviceProvider) : BaseHandler<
     }
 
     private async Task<string> Create(string merchantId, string userId, ContactDto model, CancellationToken cancellationToken) {
-        var contact = new Contact() {
+        var contact = new Contact {
             Id = NGuidHelper.New(model.Id),
             UserId = userId,
             Name = model.Name,
@@ -32,6 +32,7 @@ public class SaveContactHandler(IServiceProvider serviceProvider) : BaseHandler<
             Phone = model.Phone,
             IdentityCard = model.IdentityCard,
             CreateAt = DateTime.UtcNow,
+            BankCardId = string.Empty,
             BankCard = model.BankCard?.ToEntity(userId)
         };
 

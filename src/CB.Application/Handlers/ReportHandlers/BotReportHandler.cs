@@ -34,6 +34,7 @@ internal class BotReportHandler(IServiceProvider serviceProvider) : BaseHandler<
                     Year = o.Key.Year,
                     Balance = banlance,
                     Profit = profit,
+                    MerchantId = request.MerchantId,
                     ProfitPercent = banlance == 0 ? banlance : profit / banlance,
                     Bot = bots.GetValueOrDefault(o.Key.BotId),
                 };

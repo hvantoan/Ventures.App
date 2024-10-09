@@ -3,10 +3,10 @@
 namespace CB.Domain.Entities;
 
 public class Bot : IEntity {
-    public string Id { get; set; } = null!;
-    public string MerchantId { get; set; } = null!;
-    public string Name { get; set; } = null!;
-    public string SearchName { get; set; } = null!;
+    public required string Id { get; set; }
+    public required string MerchantId { get; set; }
+    public required string Name { get; set; }
+    public required string SearchName { get; set; }
     public string? Description { get; set; }
 
     public bool IsDelete { get; set; }

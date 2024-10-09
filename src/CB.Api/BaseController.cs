@@ -11,7 +11,7 @@ public abstract class BaseController : ControllerBase {
 
     protected readonly string merchantId;
     protected readonly string userId;
-    protected readonly TimeSpan timezone = TimeSpan.Zero;
+    protected readonly TimeSpan timezone;
 
     protected BaseController(IServiceProvider serviceProvider) {
         this.mediator = serviceProvider.GetRequiredService<IMediator>();

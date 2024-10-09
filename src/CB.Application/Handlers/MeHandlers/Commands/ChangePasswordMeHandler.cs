@@ -14,7 +14,7 @@ public class ChangePasswordMeHandler(IServiceProvider serviceProvider) : BaseHan
         var user = await db.Users.Where(o => o.Id == request.UserId && o.MerchantId == request.MerchantId && !o.IsDelete && !o.IsSystem)
             .FirstOrDefaultAsync(cancellationToken);
         CbException.ThrowIf(user == null, Messages.User_NotFound);
-        CbException.ThrowIf(!PasswordHasher.Verify(request.OldPassword, user.Password), Messages.User_IncorrentOldPassword);
+        CbException.ThrowIf(!PasswordHasher.Verify(request.OldPassword, user.Password), Messages.User_IncorrectOldPassword);
 
         user.Password = PasswordHasher.Hash(request.NewPassword);
         await db.SaveChangesAsync(cancellationToken);

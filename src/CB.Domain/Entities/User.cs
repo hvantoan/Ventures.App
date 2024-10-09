@@ -4,22 +4,22 @@ using CB.Domain.Enums;
 
 namespace CB.Domain.Entities;
 
-public partial class User : IEntity {
-    public string Id { get; set; } = null!;
-    public string MerchantId { get; set; } = null!;
+public class User : IEntity {
+    public required string Id { get; set; }
+    public required string MerchantId { get; set; }
 
     [Description("Phân quyền")]
     public string? RoleId { get; set; }
 
     [Description("Tên đăng nhập")]
-    public string Username { get; set; } = null!;
+    public required string Username { get; set; }
 
-    public string Password { get; set; } = null!;
+    public required string Password { get; set; }
 
     [Description("Tên người dùng")]
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 
-    public string SearchName { get; set; } = null!;
+    public required string SearchName { get; set; }
 
     public string? IdentityCard { get; set; }
 

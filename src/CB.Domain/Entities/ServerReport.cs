@@ -3,16 +3,16 @@
 namespace CB.Domain.Entities;
 
 public class ServerReport : IEntity {
-    public string Id { get; set; } = null!;
-    public string UserBotId { get; set; } = null!;
-    public string MerchantId { get; set; } = null!;
+    public required string Id { get; set; }
+    public required string UserBotId { get; set; }
+    public required string MerchantId { get; set; }
 
     public int Month { get; set; }
     public int Year { get; set; }
 
     public decimal BeforeBalance { get; set; }
     public decimal Deposit { get; set; }
-    public decimal AffterBalance { get; set; }
+    public decimal AfterBalance { get; set; }
 
     public decimal Profit { get; set; }
     public decimal ProfitPercent { get; set; }
@@ -20,7 +20,7 @@ public class ServerReport : IEntity {
 
     public decimal BeforeAsset { get; set; }
     public decimal Withdrawal { get; set; }
-    public decimal AffterAsset { get; set; }
+    public decimal AfterAsset { get; set; }
 
     public int Commission { get; set; }
 

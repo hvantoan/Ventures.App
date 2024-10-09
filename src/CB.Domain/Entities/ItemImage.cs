@@ -3,11 +3,11 @@ using CB.Domain.Enums;
 
 namespace CB.Domain.Entities;
 
-public partial class ItemImage : IEntity {
-    public string Id { get; set; } = null!;
-    public string MerchantId { get; set; } = null!;
-    public string ItemId { get; set; } = null!;
+public class ItemImage : IEntity {
+    public required string Id { get; set; }
+    public required string MerchantId { get; set; }
+    public required string ItemId { get; set; }
     public EItemImage ItemType { get; set; }
-    public string Name { get; set; } = null!;
-    public string Image { get; set; } = null!;
+    public required string Name { get; set; }
+    public required string Image { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using CB.Domain.Common.Resource;
+﻿using System.Text.Json.Serialization;
+using CB.Domain.Common.Resource;
 
 namespace CB.Application.Models;
 
@@ -7,11 +8,14 @@ public class UserBotDto {
     public string UserId { get; set; } = string.Empty;
     public string BotId { get; set; } = string.Empty;
     public string? BrokerServer { get; set; }
-    public long ID_MT4 { get; set; }
+
+    [JsonPropertyName("IdMt4")]
+    public long IdMt4 { get; set; }
     public string? PassView { get; set; }
     public string? PassWeb { get; set; }
     public decimal Balance { get; set; }
-    public long EV { get; set; }
+    [JsonPropertyName("Ev")]
+    public long Ev { get; set; }
     public long Ref { get; set; }
 
     public DateTimeOffset CreateAt { get; set; }
@@ -30,10 +34,10 @@ public class UserBotDto {
             PassView = entity.PassView,
             PassWeb = entity.PassWeb,
             Balance = entity.Balance,
-            ID_MT4 = entity.ID_MT4,
-            EV = entity.EV,
+            IdMt4 = entity.IdMt4,
+            Ev = entity.Ev,
             Ref = entity.Ref,
-            CreateAt = entity.CreatAt,
+            CreateAt = entity.CreateAt,
             Bot = bot == null ? null : BotDto.FromEntity(bot),
             User = user == null ? null : UserDto.FromEntity(user, unitRes),
         };

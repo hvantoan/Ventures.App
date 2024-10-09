@@ -1,11 +1,11 @@
 ﻿namespace CB.Domain.Entities;
 
 public class Merchant {
-    public string Id { get; set; } = null!;
+    public required string Id { get; set; }
 
-    public string Code { get; set; } = null!;
+    public required string Code { get; set; }
 
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 
     public string SearchName { get; set; } = string.Empty;
 
@@ -25,6 +25,5 @@ public class Merchant {
     public DateTimeOffset ExpiredDate { get; set; } = DateTimeOffset.UtcNow;
     public string? ApiSecret { get; set; }
     public long? At { get; set; }
-
     public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 }

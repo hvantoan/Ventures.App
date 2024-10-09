@@ -19,7 +19,7 @@ internal class ListTransactionHandler(IServiceProvider serviceProvider) : BaseHa
             .Where(o => o.MerchantId == request.MerchantId)
             .WhereIf(!string.IsNullOrEmpty(request.SearchText), o =>
                         o.UserBot!.BrokerServer!.Contains(request.SearchText!)
-                    || o.UserBot.ID_MT4.ToString().Contains(request.SearchText!)
+                    || o.UserBot.IdMt4.ToString().Contains(request.SearchText!)
                     || o.UserBot.Bot!.Name.Contains(request.SearchText!)
             )
             .WhereIf(!string.IsNullOrWhiteSpace(request.UserBotId), o => o.UserBotId == request.UserBotId)

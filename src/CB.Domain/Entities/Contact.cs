@@ -4,12 +4,12 @@ using CB.Domain.Extentions;
 namespace CB.Domain.Entities;
 
 public partial class Contact : IEntity {
-    public string Id { get; set; } = null!;
-    public string? UserId { get; set; }
-    public string BankCardId { get; set; } = null!;
-    public string IdentityCard { get; set; } = null!;
-    public string Name { get; set; } = null!;
-    public string SearchName { get; set; } = null!;
+    public required string Id { get; set; }
+    public required string UserId { get; set; }
+    public required string BankCardId { get; set; }
+    public required string IdentityCard { get; set; }
+    public required string Name { get; set; }
+    public required string SearchName { get; set; }
     public string? Email { get; set; }
     public string? Phone { get; set; }
     public string? Address { get; set; }
@@ -29,6 +29,7 @@ public partial class Contact {
         this.Email = model.Email;
         this.Phone = model.Phone;
         this.Address = model.Address;
+        this.BankCardId = model.BankCard!.Id!;
         this.BankCard?.FromUpdate(model.BankCard!);
     }
 }

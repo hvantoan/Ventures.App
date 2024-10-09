@@ -43,7 +43,7 @@ public class ImportTransactionHandlers(IServiceProvider serviceProvider) : BaseH
                             PassWeb = row.Cell(7).GetString(),            // Cột 7: Pass Web
                             Banlance = (decimal)row.Cell(8).GetDouble(),  // Cột 8: Vốn (USD)
                             Bot = row.Cell(9).GetString(),                // Cột 9: BOT
-                            Ev = (long)row.Cell(10).GetDouble(),          // Cột 10: EV
+                            Ev = (long)row.Cell(10).GetDouble(),          // Cột 10: Ev
                             Ref = (long)row.Cell(11).GetDouble(),         // Cột 11: Ref
                         });
                     } catch (Exception ex) {
