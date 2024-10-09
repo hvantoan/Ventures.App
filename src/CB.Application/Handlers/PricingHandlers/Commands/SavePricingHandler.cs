@@ -2,12 +2,12 @@
 
 namespace CB.Application.Handlers.PricingHandlers.Commands;
 
-public class SavePricingCommand : ModelRequest<PricingDto, Guid> {
+public class SavePricingCommand : ModelRequest<PricingDto, string> {
 }
 
-internal class SavePricingHandler(IServiceProvider serviceProvider) : BaseHandler<SavePricingCommand, Guid>(serviceProvider) {
+internal class SavePricingHandler(IServiceProvider serviceProvider) : BaseHandler<SavePricingCommand, string>(serviceProvider) {
 
-    public override async Task<Guid> Handle(SavePricingCommand request, CancellationToken cancellationToken) {
+    public override async Task<string> Handle(SavePricingCommand request, CancellationToken cancellationToken) {
         var model = request.Model;
 
         var pricing = await this.db.Pricings.AsTracking()
@@ -22,7 +22,7 @@ internal class SavePricingHandler(IServiceProvider serviceProvider) : BaseHandle
                 Interval = model.Interval,
                 Features = model.Features.Select(o => new Feature {
                     Id = NGuidHelper.New(),
-                    Content = o
+                    Content = o,
                 }).ToList()
             };
             this.db.Pricings.Add(pricing);

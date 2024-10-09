@@ -3,6 +3,7 @@ using System;
 using CB.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CB.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(CBContext))]
-    partial class CBContextModelSnapshot : ModelSnapshot
+    [Migration("20241009091555_Change_Id_To_String")]
+    partial class Change_Id_To_String
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -582,7 +585,7 @@ namespace CB.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("CB.Domain.Entities.Pricing", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("IdAdd")
                         .HasMaxLength(32)
                         .HasColumnType("character(32)")
                         .IsFixedLength();
@@ -598,7 +601,7 @@ namespace CB.Infrastructure.Database.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdAdd");
 
                     b.ToTable("Pricing", "public");
                 });

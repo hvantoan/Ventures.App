@@ -11,7 +11,7 @@ public class ImageController(IServiceProvider serviceProvider) : BaseController(
 
     [HttpGet, Route("{path}")]
     public async Task<IActionResult> View(string path) {
-        var datas = await FtpHelper.DownloadBytes($"images/{path}", configuration);
+        var downloadBytes = await FtpHelper.DownloadBytes($"images/{path}", configuration);
 
         string extension = Path.GetExtension(path).ToLowerInvariant();
         if (Array.IndexOf(imageExtention, extension) < 0) {
@@ -20,7 +20,7 @@ public class ImageController(IServiceProvider serviceProvider) : BaseController(
 
         // Check MIME type
         new FileExtensionContentTypeProvider().TryGetContentType(path, out var mimeType);
-        return File(datas, mimeType ?? "application/octet-stream"); // Change the MIME type as needed
+        return File(downloadBytes, mimeType ?? "application/octet-stream"); // Change the MIME type as needed
     }
 
 }

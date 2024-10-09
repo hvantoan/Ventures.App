@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CB.Api.Extentions;
 
-public static class JWTExtention {
+public static class JwtExtention {
 
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration) {
         services.AddAuthentication()

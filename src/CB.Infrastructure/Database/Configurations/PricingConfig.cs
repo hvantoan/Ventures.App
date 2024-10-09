@@ -10,6 +10,8 @@ internal class PricingConfig : IEntityTypeConfiguration<Pricing> {
         builder.ToTable(nameof(Pricing));
 
         builder.HasKey(o => o.Id);
+        builder.Property(o => o.Id).HasMaxLength(32).IsFixedLength();
+
         builder.Property(o => o.MonetaryUnit).HasMaxLength(Int32.MaxValue);
 
         // FK   
