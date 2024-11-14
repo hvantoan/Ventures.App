@@ -1,7 +1,8 @@
-﻿using CB.Application.Handlers.ReportHandlers;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using BotReportQuery = CB.Api.Handlers.ReportHandlers.BotReportQuery;
+using ServerReportQuery = CB.Api.Handlers.ReportHandlers.ServerReportQuery;
 
 namespace CB.Api.Controllers;
 

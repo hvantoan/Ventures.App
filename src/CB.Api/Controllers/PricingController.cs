@@ -1,9 +1,9 @@
-﻿using CB.Application.Handlers.PricingHandlers.Commands;
-using CB.Application.Handlers.PricingHandlers.Queries;
-using CB.Application.Models;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ListPricingQuery = CB.Api.Handlers.PricingHandlers.Queries.ListPricingQuery;
+using PricingDto = CB.Api.Models.PricingDto;
+using SavePricingCommand = CB.Api.Handlers.PricingHandlers.Commands.SavePricingCommand;
 
 namespace CB.Api.Controllers {
 

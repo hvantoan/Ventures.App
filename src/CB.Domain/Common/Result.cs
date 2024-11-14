@@ -14,11 +14,11 @@ public class Result {
     public object? Data { get; set; }
 
     public static Result Ok(object? data = null) {
-        return new() { Success = true, Data = data };
+        return new Result { Success = true, Data = data };
     }
 
     public static Result Fail(string? message = null) {
-        return new() { Message = message };
+        return new Result { Message = message };
     }
 
     public override string ToString() {

@@ -1,9 +1,11 @@
-﻿using CB.Application.Handlers.BotHandlers.Commands;
-using CB.Application.Handlers.BotHandlers.Queries;
-using CB.Application.Models;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using BotDto = CB.Api.Models.BotDto;
+using DeleteBotCommand = CB.Api.Handlers.BotHandlers.Commands.DeleteBotCommand;
+using GetBotQuery = CB.Api.Handlers.BotHandlers.Queries.GetBotQuery;
+using ListBotQuery = CB.Api.Handlers.BotHandlers.Queries.ListBotQuery;
+using SaveBotCommand = CB.Api.Handlers.BotHandlers.Commands.SaveBotCommand;
 
 namespace CB.Api.Controllers;
 

@@ -1,9 +1,10 @@
-﻿using CB.Application.Handlers.TransactionHandlers.Commands;
-using CB.Application.Handlers.TransactionHandlers.Queries;
-using CB.Application.Models;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using ImportTransactionCommand = CB.Api.Handlers.TransactionHandlers.Commands.ImportTransactionCommand;
+using ListTransactionQuery = CB.Api.Handlers.TransactionHandlers.Queries.ListTransactionQuery;
+using SaveTransactionCommand = CB.Api.Handlers.TransactionHandlers.Commands.SaveTransactionCommand;
+using TransactionDto = CB.Api.Models.TransactionDto;
 
 namespace CB.Api.Controllers;
 

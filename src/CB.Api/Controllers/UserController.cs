@@ -1,6 +1,6 @@
-﻿using CB.Application.Handlers.UserHandlers.Commands;
-using CB.Application.Handlers.UserHandlers.Queries;
-using CB.Application.Models;
+﻿
+using CB.Api.Handlers.UserHandlers.Commands;
+using CB.Api.Handlers.UserHandlers.Queries;
 using CB.Domain.Common;
 using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;

@@ -2,7 +2,7 @@
 
     public enum EEnviroment {
         Web = 1,
-        IOS,
-        Adroid
+        Ios,
+        Android
     }
 }

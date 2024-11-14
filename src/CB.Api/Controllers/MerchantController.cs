@@ -1,10 +1,11 @@
-﻿using CB.Application.Handlers.MerchantHandlers.Commands;
-using CB.Application.Handlers.MerchantHandlers.Queries;
-using CB.Application.Models;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using GetMerchantQuery = CB.Api.Handlers.MerchantHandlers.Queries.GetMerchantQuery;
+using MerchantDto = CB.Api.Models.MerchantDto;
+using RegisterMerchantCommand = CB.Api.Handlers.MerchantHandlers.Commands.RegisterMerchantCommand;
+using SaveMerchantCommand = CB.Api.Handlers.MerchantHandlers.Commands.SaveMerchantCommand;
 
 namespace CB.Api.Controllers;
 

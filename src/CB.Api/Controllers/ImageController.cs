@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.StaticFiles;
 namespace CB.Api.Controllers;
 [ApiController, AllowAnonymous, Route("images")]
 public class ImageController(IServiceProvider serviceProvider) : BaseController(serviceProvider) {
-    private readonly string[] imageExtention = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
+    private readonly string[] imageExtension = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
     private readonly IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
     [HttpGet, Route("{path}")]
@@ -14,7 +14,7 @@ public class ImageController(IServiceProvider serviceProvider) : BaseController(
         var downloadBytes = await FtpHelper.DownloadBytes($"images/{path}", configuration);
 
         string extension = Path.GetExtension(path).ToLowerInvariant();
-        if (Array.IndexOf(imageExtention, extension) < 0) {
+        if (Array.IndexOf(imageExtension, extension) < 0) {
             return BadRequest("Invalid image file extension.");
         }
 

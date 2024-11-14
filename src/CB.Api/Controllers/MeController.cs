@@ -1,9 +1,10 @@
-﻿using CB.Application.Handlers.MeHandlers.Commands;
-using CB.Application.Handlers.MeHandlers.Queries;
-using CB.Application.Models;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using ChangePasswordMeCommand = CB.Api.Handlers.MeHandlers.Commands.ChangePasswordMeCommand;
+using GetMeQuery = CB.Api.Handlers.MeHandlers.Queries.GetMeQuery;
+using UpdateMeCommand = CB.Api.Handlers.MeHandlers.Commands.UpdateMeCommand;
+using UserDto = CB.Api.Models.UserDto;
 
 namespace CB.Api.Controllers;
 

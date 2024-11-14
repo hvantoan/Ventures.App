@@ -1,9 +1,10 @@
-﻿using CB.Application.Handlers.ContactHandlers.Commands;
-using CB.Application.Handlers.ContactHandlers.Queries;
-using CB.Application.Models;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using ContactDto = CB.Api.Models.ContactDto;
+using GetContactCommand = CB.Api.Handlers.ContactHandlers.Queries.GetContactCommand;
+using ListContactQuery = CB.Api.Handlers.ContactHandlers.Queries.ListContactQuery;
+using SaveContactCommand = CB.Api.Handlers.ContactHandlers.Commands.SaveContactCommand;
 
 namespace CB.Api.Controllers;
 

@@ -1,5 +1,4 @@
 using CB.Api.Extentions;
-using CB.Application;
 using CB.Domain;
 using CB.Infrastructure;
 

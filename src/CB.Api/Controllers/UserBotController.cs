@@ -1,9 +1,10 @@
-﻿using CB.Application.Handlers.UserBotHandlers.Commands;
-using CB.Application.Handlers.UserBotHandlers.Queries;
-using CB.Application.Models;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using CB.Domain.Common.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using GetUserBotQuery = CB.Api.Handlers.UserBotHandlers.Queries.GetUserBotQuery;
+using ListUserBotQuery = CB.Api.Handlers.UserBotHandlers.Queries.ListUserBotQuery;
+using SaveUserBotCommand = CB.Api.Handlers.UserBotHandlers.Commands.SaveUserBotCommand;
+using UserBotDto = CB.Api.Models.UserBotDto;
 
 namespace CB.Api.Controllers;
 

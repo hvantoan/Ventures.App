@@ -1,7 +1,8 @@
-﻿using CB.Application.Handlers.AuthHandlers.Commands;
-using CB.Domain.Common;
+﻿using CB.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LoginCommand = CB.Api.Handlers.AuthHandlers.Commands.LoginCommand;
+using RegisterGoogleCommand = CB.Api.Handlers.AuthHandlers.Commands.RegisterGoogleCommand;
 
 namespace CB.Api.Controllers;
 
