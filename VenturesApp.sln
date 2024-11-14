@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CB.Api", "src\CB.Api\CB.Api.csproj", "{7FA6AE7B-EC31-4CBB-8495-08AFF4C5259E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CB.Application", "src\CB.Application\CB.Application.csproj", "{7FA6AE7B-EC31-4CBB-8495-08AFF4C5259E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{184563CD-8519-453E-9E2F-B5A0395D38BB}"
 EndProject
